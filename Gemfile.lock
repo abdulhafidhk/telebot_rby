@@ -46,6 +46,8 @@ GEM
     multipart-post (2.1.1)
     nokogiri (1.10.5-x64-mingw32)
       mini_portile2 (~> 2.4.0)
+    nokogiri (1.10.5-x86-mingw32)
+      mini_portile2 (~> 2.4.0)
     os (1.0.1)
     public_suffix (4.0.1)
     representable (3.0.4)
@@ -72,6 +74,7 @@ GEM
 
 PLATFORMS
   x64-mingw32
+  x86-mingw32
 
 DEPENDENCIES
   google_drive
