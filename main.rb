@@ -11,7 +11,7 @@ token 		= '1063487728:AAE6TEMGGgxntgZr-DDtb5bitvFG1PeAvh4';
 Telegram::Bot::Client.run(token) do |bot|
   bot.listen do |message|
     case message.text
-	when '/flip'
+	when /^\/flip/
 		num = rand(1..10);
 		str = '';
 		if num%2 ==0
@@ -20,22 +20,21 @@ Telegram::Bot::Client.run(token) do |bot|
 			str = 'Tail'
 		end
 		bot.api.send_message(chat_id: message.chat.id, text: "om #{message.from.first_name} get #{str}")
-    when '/hello'
+    when /^\/hello/
 		bot.api.send_message(chat_id: message.chat.id, text: "Hello, om #{message.from.first_name}")
-    when '/about'
+    when /^\/about/
 		bot.api.send_message(chat_id: message.chat.id, text: "Created on 2 Dec 2019, with RUBY gem")
-	when '/credits'
-		bot.api.send_message(chat_id: message.chat.id, text: "Created on 2 Dec 2019, with RUBY gem")	
-	when '/invload'
+	when /^\/credits/
+		bot.api.send_message(chat_id: message.chat.id, text: "patrict bots, on heroku")	
+	when /^\/invload/
 		inv = spreadsheet.worksheets.first;
 		bot.api.send_message(chat_id: message.chat.id, text: "Hi #{message.from.first_name}, New inventory is loaded" )
-	when /\/inv (.+)/
+	when /^\/db (.+)/
 		search = $1;
 		str = '';
 		inv.rows.each{|row|
 			if row[0].include?(search.upcase)  
-				str += "
-				```
+				str += "```
 				DBNAME\t: #{row[0]}
 				HOSTNAME\t: #{row[1]}
 				IP\t: #{row[2]}
@@ -43,9 +42,8 @@ Telegram::Bot::Client.run(token) do |bot|
 				PIC\t: #{row[4]}
 				DB.ver\t: ORACLE #{row[7]}
 				APP\t: #{row[8]}
-				CREATED\t: #{row[9]}
-				```
-				"
+				CREATED\t: #{row[9]}```
+				";
 			end
 		}
 		if str == ''

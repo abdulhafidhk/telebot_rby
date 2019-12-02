@@ -50,6 +50,11 @@ GEM
       mini_portile2 (~> 2.4.0)
     os (1.0.1)
     public_suffix (4.0.1)
+    rails_12factor (0.0.3)
+      rails_serve_static_assets
+      rails_stdout_logging
+    rails_serve_static_assets (0.0.5)
+    rails_stdout_logging (0.0.5)
     representable (3.0.4)
       declarative (< 0.1.0)
       declarative-option (< 0.2.0)
@@ -78,7 +83,11 @@ PLATFORMS
 
 DEPENDENCIES
   google_drive
+  rails_12factor
   telegram-bot-ruby
+
+RUBY VERSION
+   ruby 2.6.5p114
 
 BUNDLED WITH
    1.17.2
