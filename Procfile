@@ -1,1 +1,1 @@
-worker: bundle exec ruby main.tb
+web: gunicorn main.rb
