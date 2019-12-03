@@ -51,7 +51,7 @@ Telegram::Bot::Client.run(token) do |bot|
 					str = "cant found #{search} in inventory"
 				end
 				if (i > 5) 
-					str = " query lebih dari  #{i}, input lebih detail"
+					str = "query lebih dari  #{i}, input lebih detail"
 				end
 				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{str} ```" );
 			when /^\/host (.+)/
@@ -61,7 +61,7 @@ Telegram::Bot::Client.run(token) do |bot|
 				inv.rows.each{|row|
 					# puts "#{row[1]} == #{search.upcase} :#{row[1].include?(search.upcase)}"
 					if row[1].upcase.include?(search.upcase)  
-						str += " #{row[0]}|#{row[3]}|ORACLE #{row[7]}|#{row[4]}|#{row[8]}\n";
+						str += "# #{i+1} #{row[0]}|#{row[3]}|#{row[1]}|#{row[4]}|#{row[8]}\n";
 						i+=1;
 					end
 				}
@@ -69,7 +69,7 @@ Telegram::Bot::Client.run(token) do |bot|
 					str = "cant found #{search} in inventory"
 				end
 				if(i > 30) 
-					str = " query lebih dari  #{i}, input lebih detail"
+					str = "query lebih dari  #{i}, input lebih detail"
 				end
 				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{str} ```" );
 			
