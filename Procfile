@@ -1,1 +1,1 @@
-web: gunicorn main.rb
+worker: ruby main.rb
