@@ -72,8 +72,24 @@ Telegram::Bot::Client.run(token) do |bot|
 					str = "query lebih dari  #{i}, input lebih detail"
 				end
 				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{str} ```" );
-			
-			
+			when /^\/scanexaimc/
+				str="*exaimcpdb-scan*
+				10.53.71.166:1521
+				10.53.71.165:1521
+				10.53.71.167:1521
+				vip 
+				exaimcpdb1= 10.53.71.163:1521
+				exaimcpdb2= 10.53.71.164:1521"
+				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: str );
+			when /^\/scanexabsd/
+				str="*exa62bsdpdb-scan*
+				10.54.128.133:1521
+				10.54.128.135:1521
+				10.54.128.134:1521
+				vip
+				exa62bsdpdb1= 10.54.128.131:1521
+				exa62bsdpdb2= 10.54.128.132:1521"
+				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: str );
 			end
 		end
 	end
