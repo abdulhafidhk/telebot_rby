@@ -36,14 +36,7 @@ Telegram::Bot::Client.run(token) do |bot|
 				i=0
 				inv.rows.each{|row|
 					if row[0].upcase.include?(search.upcase)  
-						str += "DBNAME\t: #{row[0]}
-						HOSTNAME\t: #{row[1]}
-						IP\t: #{row[2]}
-						CAT\t: #{row[3]}
-						PIC\t: #{row[4]}
-						DB.ver\t: ORACLE #{row[7]}
-						APP\t: #{row[8]}
-						CREATED\t: #{row[9]}";
+						str += "DBNAME: #{row[0]}\nHOSTNAME: #{row[1]}\nIP: #{row[2]}\nCAT: #{row[3]}\nPIC: #{row[4]}\nDB.ver: ORACLE #{row[7]}\nAPP: #{row[8]}\nCREATED: #{row[9]}\n";
 						i+=1;
 					end
 				}
@@ -61,7 +54,7 @@ Telegram::Bot::Client.run(token) do |bot|
 				inv.rows.each{|row|
 					# puts "#{row[1]} == #{search.upcase} :#{row[1].include?(search.upcase)}"
 					if row[1].upcase.include?(search.upcase)  
-						str += "# #{i+1} #{row[0]}|#{row[3]}|#{row[1]}|#{row[4]}|#{row[8]}\n";
+						str += "##{i+1} #{row[0]}|#{row[3]}|#{row[1]}|#{row[4]}|#{row[8]}\n";
 						i+=1;
 					end
 				}
@@ -72,6 +65,8 @@ Telegram::Bot::Client.run(token) do |bot|
 					str = "query lebih dari  #{i}, input lebih detail"
 				end
 				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{str} ```" );
+			when /^\/oracleserver/
+			
 			when /^\/scanexaimc/
 				str="*exaimcpdb-scan*
 				10.53.71.166:1521
