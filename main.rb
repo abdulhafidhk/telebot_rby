@@ -26,17 +26,17 @@ Telegram::Bot::Client.run(token) do |bot|
 			when /^\/about/
 				bot.api.send_message(chat_id: message.chat.id, text: "Created on 2 Dec 2019, with RUBY gem")
 			when /^\/credits/
-				bot.api.send_message(chat_id: message.chat.id, text: "patrict bots, on heroku")	
+				bot.api.send_message(chat_id: message.chat.id, text: "patrict bots, on local")	
 			when /^\/invload/
 				inv = spreadsheet.worksheets.first;
 				bot.api.send_message(chat_id: message.chat.id, text: "Hi #{message.from.first_name}, New inventory is loaded" )
-			when /^\/db (.+)/
+			when /^\/db (.+)/ #show db
 				search = $1;
 				str = '';
 				i=0
 				inv.rows.each{|row|
 					if row[0].upcase.include?(search.upcase)  
-						str += "DBNAME: #{row[0]}\nHOSTNAME: #{row[1]}\nIP: #{row[2]}\nCAT: #{row[3]}\nPIC: #{row[4]}\nDB.ver: ORACLE #{row[7]}\nAPP: #{row[8]}\nCREATED: #{row[9]}\n";
+						str += "\n##{i+1})DBNAME: #{row[0]}\nHOSTNAME: #{row[1]}\nIP: #{row[2]}\nCAT: #{row[3]}\nPIC: #{row[4]}\nDB.ver: ORACLE #{row[7]}\nAPP: #{row[8]}\nCREATED: #{row[9]}\n";
 						i+=1;
 					end
 				}
@@ -47,14 +47,14 @@ Telegram::Bot::Client.run(token) do |bot|
 					str = "query lebih dari  #{i}, input lebih detail"
 				end
 				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{str} ```" );
-			when /^\/host (.+)/
+			when /^\/host (.+)/ #show all db onhosts
 				search = $1;
 				str = '';
 				i=0
 				inv.rows.each{|row|
 					# puts "#{row[1]} == #{search.upcase} :#{row[1].include?(search.upcase)}"
 					if row[1].upcase.include?(search.upcase)  
-						str += "##{i+1} #{row[0]}|#{row[3]}|#{row[1]}|#{row[4]}|#{row[8]}\n";
+						str += "##{i+1}|#{row[0]}|#{row[3]}|#{row[1]}|#{row[4]}|#{row[8]}\n";
 						i+=1;
 					end
 				}
@@ -65,8 +65,8 @@ Telegram::Bot::Client.run(token) do |bot|
 					str = "query lebih dari  #{i}, input lebih detail"
 				end
 				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{str} ```" );
-			when /^\/oracleserver/
-			
+			when /^\/dblist/ #show all hosts
+				
 			when /^\/scanexaimc/
 				str="*exaimcpdb-scan*
 				10.53.71.166:1521
