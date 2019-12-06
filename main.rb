@@ -6,6 +6,7 @@ Bundler.require
 session 	= GoogleDrive::Session.from_service_account_key("client_secret.json");
 spreadsheet = session.spreadsheet_by_title("telebot_ssi_modb");
 inv			= spreadsheet.worksheets.first;
+invm		= spreadsheet.worksheets[1];
 token 		= '1063487728:AAE6TEMGGgxntgZr-DDtb5bitvFG1PeAvh4';
 
 
@@ -24,13 +25,13 @@ Telegram::Bot::Client.run(token) do |bot|
 			when /^\/hello/
 				bot.api.send_message(chat_id: message.chat.id, text: "Hello, om #{message.from.first_name}")
 			when /^\/about/
-				bot.api.send_message(chat_id: message.chat.id, text: "Created on 2 Dec 2019, with RUBY gem")
+				bot.api.send_message(chat_id: message.chat.id, text: "Created on 2 Dec 2019, with RUBY gem\n Last update: 2019-12-06 +7 BETA")
 			when /^\/credits/
 				bot.api.send_message(chat_id: message.chat.id, text: "patrict bots, on local")	
-			when /^\/invload/
+			when /^\/load/
 				inv = spreadsheet.worksheets.first;
 				bot.api.send_message(chat_id: message.chat.id, text: "Hi #{message.from.first_name}, New inventory is loaded" )
-			when /^\/db (.+)/ #show db
+			when /^\/oradb (.+)/ #show db
 				search = $1;
 				str = '';
 				i=0
@@ -47,7 +48,7 @@ Telegram::Bot::Client.run(token) do |bot|
 					str = "query lebih dari  #{i}, input lebih detail"
 				end
 				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{str} ```" );
-			when /^\/host (.+)/ #show all db onhosts
+			when /^\/oradblist (.+)/ #show all db onhosts
 				search = $1;
 				str = '';
 				i=0
@@ -65,8 +66,41 @@ Telegram::Bot::Client.run(token) do |bot|
 					str = "query lebih dari  #{i}, input lebih detail"
 				end
 				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{str} ```" );
-			when /^\/dblist/ #show all hosts
-				
+			when /^\/host/ #show all hosts
+				hosts=[]
+				str="";
+				inv.rows.each{|row|
+					# puts "#{row[1]} == #{search.upcase} :#{row[1].include?(search.upcase)}"
+					if !(hosts.include?(row[1]))
+						hosts.push(row[1]);
+					end
+				}
+				i=0
+				hosts.each{|host|
+					str+= "##{i+=1}|#{host}\n ";
+				}
+				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{str} ```" );
+			when /^\/cat (.+)/
+				search = $1;
+				str = '';
+				i=0
+				inv.rows.each{|row|
+					# puts "#{row[1]} == #{search.upcase} :#{row[1].include?(search.upcase)}"
+					if row[3].upcase.include?(search.upcase)  
+						str += "##{i+1}|#{row[0]}|#{row[3]}|#{row[1]}|#{row[4]}|#{row[8]}\n";
+						i+=1;
+					end
+				}
+				if(str == '')
+					str = "cant found #{search} in inventory"
+				end
+				if(i > 30) 
+					str = "query lebih dari  #{i}, input lebih detail"
+				end
+				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{str} ```" );
+			when /^\/mysqldb (.+)/
+				puts invm.inspect;
+				#bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{} ```" );
 			when /^\/scanexaimc/
 				str="*exaimcpdb-scan*
 				10.53.71.166:1521
