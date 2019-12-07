@@ -195,7 +195,7 @@ class Mainbot
 			when /^\/mydblist (.+)/, /^\/mydblist@oramodb_ssi_bot (.+)/
 				search = $1
 				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_mydblist(search)} ```")
-			when /^\/myhosts(.+)/, /^\/myhosts@oramodb_ssi_bot(.+)/
+			when /^\/mydbhosts(.+)/, /^\/mydbhosts@oramodb_ssi_bot(.+)/
 				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_myhosts} ```")
 			end
 		end
