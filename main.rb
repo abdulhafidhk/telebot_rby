@@ -28,19 +28,18 @@ Telegram::Bot::Client.run(token) do |bot|
 				inv.rows.each{|row|
 					#puts "#{row[1]} == #{search.upcase} :#{row[1].include?(search.upcase)}"
 					if row[3].upcase.include?(search.upcase)  
-						str += "##{i+1}|#{row[0]}\n"
-						i+=1;
+						str += "#{i+=1})#{row[0]}\n"
 					end
 				}
 				if(str == '')
-					str = "cant found #{search} in inventory"
+					str = " #{search} tidak ditemukan"
 				end
-				if(i > 30) 
+				if(str.size >= 4096) 
 					str = "query lebih dari  #{i}, input lebih detail"
 				end
-				puts message.inspect;
-				# bot.api.editMessageReplyMarkup(chat_id:message.from.id,message_id:message.message.message_id,reply_markup: {inline_keyboard: []} )
-				bot.api.send_message(chat_id: message.from.id, parse_mode: 'markdown',text: "``` #{str} ```");
+				#puts message.message.inspect;
+				bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
+				bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{str} ```");
 			when 'MC'
 				search = 'Mission Critical';
 				str = ''
@@ -48,19 +47,18 @@ Telegram::Bot::Client.run(token) do |bot|
 				inv.rows.each{|row|
 					#puts "#{row[1]} == #{search.upcase} :#{row[1].include?(search.upcase)}"
 					if row[3].upcase.include?(search.upcase)  
-						str += "##{i+1}|#{row[0]}\n"
-						i+=1;
+						str += "#{i+=1})#{row[0]}\n"
 					end
 				}
 				if(str == '')
-					str = "cant found #{search} in inventory"
+					str = " #{search} tidak ditemukan"
 				end
-				if(i > 30) 
+				if(str.size >= 4096) 
 					str = "query lebih dari  #{i}, input lebih detail"
 				end
-				puts message.inspect
-				# bot.api.editMessageReplyMarkup(chat_id:message.from.id,message_id:message.message.message_id,reply_markup: {inline_keyboard: []} )
-				bot.api.send_message(chat_id: message.from.id, parse_mode: 'markdown',text: "``` #{str} ```" );
+				#puts message.message.inspect;
+				bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,reply_markup: {inline_keyboard: []} )
+				bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{str} ```");
 			when 'BS'
 				search = 'Business Support';
 				str = ''
@@ -68,19 +66,18 @@ Telegram::Bot::Client.run(token) do |bot|
 				inv.rows.each{|row|
 					#puts "#{row[1]} == #{search.upcase} :#{row[1].include?(search.upcase)}"
 					if row[3].upcase.include?(search.upcase)  
-						str += "##{i+1}|#{row[0]}\n"
-						i+=1;
+						str += "#{i+=1})#{row[0]}\n"
 					end
 				}
 				if(str == '')
-					str = "cant found #{search} in inventory"
+					str = " #{search} tidak ditemukan"
 				end
-				if(i > 30) 
+				if(str.size >= 4096) 
 					str = "query lebih dari  #{i}, input lebih detail"
 				end
-				puts message.inspect
-				# bot.api.editMessageReplyMarkup(chat_id:message.from.id,message_id:message.message.message_id,reply_markup: {inline_keyboard: []} )
-				bot.api.send_message(chat_id: message.from.id, parse_mode: 'markdown',text: "``` #{str} ```" );
+				#puts message.message.inspect;
+				bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,reply_markup: {inline_keyboard: []} )
+				bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{str} ```");
 			when 'BI'
 				search = 'Business Important';
 				str = ''
@@ -88,19 +85,18 @@ Telegram::Bot::Client.run(token) do |bot|
 				inv.rows.each{|row|
 					#puts "#{row[1]} == #{search.upcase} :#{row[1].include?(search.upcase)}"
 					if row[3].upcase.include?(search.upcase)  
-						str += "##{i+1}|#{row[0]}\n"
-						i+=1;
+						str += "#{i+=1})#{row[0]}\n"
 					end
 				}
 				if(str == '')
-					str = "cant found #{search} in inventory"
+					str = " #{search} tidak ditemukan"
 				end
-				if(i > 30) 
+				if(str.size >= 4096) 
 					str = "query lebih dari  #{i}, input lebih detail"
 				end
-				puts message.inspect
-				# bot.api.editMessageReplyMarkup(chat_id:message.from.id,message_id:message.message.message_id,reply_markup: {inline_keyboard: []} )
-				bot.api.send_message(chat_id: message.from.id, parse_mode: 'markdown',text: "``` #{str} ```" );
+				#puts message.message.inspect;
+				bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,reply_markup: {inline_keyboard: []} )
+				bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{str} ```");
 			when 'MCBC'
 				search = 'Mission Critical Business Critical';
 				str = ''
@@ -108,19 +104,18 @@ Telegram::Bot::Client.run(token) do |bot|
 				inv.rows.each{|row|
 					#puts "#{row[1]} == #{search.upcase} :#{row[1].include?(search.upcase)}"
 					if row[3].upcase.include?(search.upcase)  
-						str += "##{i+1}|#{row[0]}\n"
-						i+=1;
+						str += "#{i+=1})#{row[0]}\n"
 					end
 				}
 				if(str == '')
-					str = "cant found #{search} in inventory"
+					str = " #{search} tidak ditemukan"
 				end
-				if(i > 30) 
+				if(str.size >= 4096) 
 					str = "query lebih dari  #{i}, input lebih detail"
 				end
-				puts message.inspect
-				# bot.api.editMessageReplyMarkup(chat_id:message.from.id,message_id:message.message.message_id,reply_markup: {inline_keyboard: []} )
-				# bot.api.send_message(chat_id: message.from.id, parse_mode: 'markdown',text: "``` #{str} ```" );
+				#puts message.message.inspect;
+				bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,reply_markup: {inline_keyboard: []} )
+				bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{str} ```");
 			end
 			###################### msg ##########################
 		when Telegram::Bot::Types::Message
@@ -137,8 +132,7 @@ Telegram::Bot::Client.run(token) do |bot|
 			when /^\/hello/
 				bot.api.send_message(chat_id: message.chat.id, text: "Hello, om #{message.from.first_name}")
 			when /^\/about/
-				bot.api.send_message(chat_id: message.chat.id, text: "
-				`/hello`
+				bot.api.send_message(chat_id: message.chat.id,parse_mode: 'markdown', text: "`/hello`
 				- patrick will say hello
 				`/oradb` 
 				- get oracle db info ex: /db OPDB
@@ -176,7 +170,7 @@ Telegram::Bot::Client.run(token) do |bot|
 				if str == '' 
 					str = "cant found #{search} in inventory"
 				end
-				if (i > 5) 
+				if (str.size >= 4096) 
 					str = "query lebih dari  #{i}, input lebih detail"
 				end
 				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{str} ```" );
@@ -194,7 +188,7 @@ Telegram::Bot::Client.run(token) do |bot|
 				if(str == '')
 					str = "cant found #{search} in inventory"
 				end
-				if(i > 30) 
+				if(str.size >= 4096) 
 					str = "query lebih dari  #{i}, input lebih detail"
 				end
 				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{str} ```" );
@@ -212,7 +206,7 @@ Telegram::Bot::Client.run(token) do |bot|
 					str+= "##{i+=1}|#{host}\n ";
 				}
 				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{str} ```" );
-			when /^\/oracataaa/
+			when /^\/oracat/
 				kb = [
 				  Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Business Critical', callback_data: 'BC'),
 				  Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Mission Critical', callback_data: 'MC'),
