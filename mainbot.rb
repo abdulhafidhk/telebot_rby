@@ -80,20 +80,18 @@ class Mainbot
 		return str
 	end
 
-	def bot_orahost
+	def bot_orahosts
 		hosts=[]
 		str="";
 		@orain.rows.each{|row|
-			# puts "#{row[1]} == #{search.upcase} :#{row[1].include?(search.upcase)}"
-			if !(hosts.include?(row[1]))
+			if !(hosts.include?(row[1]+":"+row[2]))
 				hosts.push(row[1]+":"+row[2]);
 			end
 		}
 		i=0
 		hosts.each{|host|
-			str+= "##{i+=1}|#{host}\n ";
+			str+= "##{i+=1}|#{host}\n" 
 		}
-		return "#{search} tidak ditemukan di invetory" if str=='' 
 		return "query ditemukan #{i}, mohon didetailkan lagi" if str.size >= 4096
 		return str
 	end
@@ -124,18 +122,17 @@ class Mainbot
 		return str
 	end
 
-	def bot_myhost(search)
+	def bot_myhosts()
 		hosts=[]
 		str='';
 		@myin.rows.each{|row|
-			# puts "#{row[1]} == #{search.upcase} :#{row[1].include?(search.upcase)}"
-			if !(hosts.upcase.include?(row[1].upcase))
+			if !(hosts.include?((row[1]+":"+row[2])))
 				hosts.push(row[1]+":"+row[2]);
 			end
 		}
 		i=0
 		hosts.each{|host|
-			str+= "##{i+=1}|#{host}\n " if host.upcase.include?(search.upcase)
+			str+= "##{i+=1}|#{host}\n " 
 		}
 		return "query ditemukan #{i}, mohon didetailkan lagi" if str.size >= 4096
 		return str
@@ -166,6 +163,7 @@ class Mainbot
 	end
 
 	def message_filter(message,bot)
+		puts "#{Time.new.strftime("%Y-%m-%d %H:%M:%S")}|REQUEST|#{message.from.username}|#{message.from.first_name}|#{message.chat.id}|#{message.chat.title}|#{message.chat.type}|#{message.text}"
 		case message
 		when Telegram::Bot::Types::CallbackQuery
 			case message.data
@@ -176,11 +174,29 @@ class Mainbot
 				bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_getoracat(search)} ```")
 			end
 		when Telegram::Bot::Types::Message
-			case message.text
-			when /^\/hello(.+)/
+			case message.text.downcase
+			when /^\/hello/
 				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: self.bot_hello(message.from.first_name))
-			when /^\/flip(.+)/
+			when /^\/flip/
 				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: self.bot_flip(message.from.first_name))
+			when /^\/about/
+				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: self.bot_about)
+			when /^\/oradb (.+)/, /^\/oradb@oramodb_ssi_bot (.+)/
+				search = $1
+				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_oradb(search)} ```")
+			when /^\/oradblist (.+)/, /^\/oradblist@oramodb_ssi_bot (.+)/
+				search = $1
+				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_oradblist(search)} ```")
+			when /^\/orahosts(.+)/, /^\/orahosts@oramodb_ssi_bot(.+)/
+				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_orahosts} ```")
+			when /^\/mydb (.+)/, /^\/mydb@oramodb_ssi_bot (.+)/
+				search = $1
+				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_mydb(search)} ```")
+			when /^\/mydblist (.+)/, /^\/mydblist@oramodb_ssi_bot (.+)/
+				search = $1
+				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_mydblist(search)} ```")
+			when /^\/myhosts(.+)/, /^\/myhosts@oramodb_ssi_bot(.+)/
+				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_myhosts} ```")
 			end
 		end
 			
