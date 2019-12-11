@@ -126,7 +126,7 @@ class Mainbot
 		hosts=[]
 		str='';
 		@myin.rows.each{|row|
-			h=row[1]+":"row[2]
+			h=row[1]+":"+row[2]
 			if (h.upcase.include?(search.upcase))
 				hosts.push(row[1]+":"+row[2]);
 			end
@@ -216,7 +216,7 @@ end
 mybot = Mainbot.new
 =begin
 sample:
-https://api.telegram.org/bot1063487728:AAE6TEMGGgxntgZr-DDtb5bitvFG1PeAvh4/sendMessage?chat_id=-261979504&text=cot+lu+om+@dani_ardhan
+https://api.telegram.org/bot1063487728:AAE6TEMGGgxntgZr-DDtb5bitvFG1PeAvh4/sendMessage?chat_id=-261979504&text=hai=ganteng
 puts mybot.bot_hello("me")
 puts mybot.bot_flip("me")
 puts mybot.bot_oradb("OPCMC")
