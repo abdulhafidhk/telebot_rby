@@ -122,16 +122,17 @@ class Mainbot
 		return str
 	end
 
-	def bot_myhosts()
+	def bot_myhosts(search)
 		hosts=[]
 		str='';
 		@myin.rows.each{|row|
-			if !(hosts.include?((row[1]+":"+row[2])))
+			h=row[1]+":"row[2]
+			if (h.upcase.include?(search.upcase))
 				hosts.push(row[1]+":"+row[2]);
 			end
 		}
 		i=0
-		hosts.each{|host|
+		hosts.uniq.each{|host|
 			str+= "##{i+=1}|#{host}\n " 
 		}
 		return "query ditemukan #{i}, mohon didetailkan lagi" if str.size >= 4096
@@ -195,8 +196,9 @@ class Mainbot
 			when /^\/mydblist (.+)/, /^\/mydblist@oramodb_ssi_bot (.+)/
 				search = $1
 				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_mydblist(search)} ```")
-			when /^\/mydbhosts(.+)/, /^\/mydbhosts@oramodb_ssi_bot(.+)/
-				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_myhosts} ```")
+			when /^\/mydbhosts (.+)/, /^\/mydbhosts@oramodb_ssi_bot (.+)/
+				search = $1
+				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_myhosts(search)} ```")
 			end
 		end
 			
@@ -212,7 +214,9 @@ class Mainbot
 end
 
 mybot = Mainbot.new
-=begin 
+=begin
+sample:
+https://api.telegram.org/bot1063487728:AAE6TEMGGgxntgZr-DDtb5bitvFG1PeAvh4/sendMessage?chat_id=-261979504&text=cot+lu+om+@dani_ardhan
 puts mybot.bot_hello("me")
 puts mybot.bot_flip("me")
 puts mybot.bot_oradb("OPCMC")
