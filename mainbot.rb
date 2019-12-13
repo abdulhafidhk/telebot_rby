@@ -150,6 +150,18 @@ class Mainbot
 		return kb
 	end
 
+	def bot_mycat_key
+		kb = [
+		  Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Business Critical', callback_data: 'MYBC'),
+		  Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Mission Critical', callback_data: 'MYMC'),
+		  Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Business Support', callback_data: 'MYBS'),
+		  Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Business Important', callback_data: 'MYBI'),
+		  Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Business Important/Business Support', callback_data: 'MYBIBS'),
+		  Telegram::Bot::Types::InlineKeyboardButton.new(text: 'Mission Critical Business Critical', callback_data: 'MYMCBC')
+		]
+		return kb
+	end
+
 	def bot_getoracat(search)
 		str = ''
 		i=0
@@ -163,11 +175,27 @@ class Mainbot
 		return str
 	end
 
+	def bot_getmycat(search)
+		str = ''
+		i=0
+		@myin.rows.each{|row|
+			if row[3].upcase.include?(search.upcase)  
+				str += "#{i+=1})#{row[0]}\n"
+			end
+		}
+		return "#{search} tidak ditemukan di invetory" if str=='' 
+		return "query ditemukan #{i}, mohon didetailkan lagi" if str.size >= 4096
+		return str
+	end
+
 	def message_filter(message,bot)
-		puts "#{Time.new.strftime("%Y-%m-%d %H:%M:%S")}|REQUEST|#{message.from.username}|#{message.from.first_name}|#{message.chat.id}|#{message.chat.title}|#{message.chat.type}|#{message.text}"
 		case message
 		when Telegram::Bot::Types::CallbackQuery
+			puts "#{Time.new.strftime("%Y-%m-%d %H:%M:%S")}|REQUEST|#{message.from.username}|#{message.from.first_name}|#{message.message.chat.id}|#{message.message.chat.title}|#{message.message.chat.type}|#{message.message.text}"
 			case message.data
+			#-------------------------------------------------
+			# Oracle
+			#-------------------------------------------------
 			# Business Critical
 			# Mission Critical
 			# Business Support
@@ -194,8 +222,42 @@ class Mainbot
 				search = 'Mission Critical Business Critical'
 				bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
 				bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_getoracat(search)} ```")
+			#-------------------------------------------------
+			# MYSQL
+			#-------------------------------------------------
+			#BIBS
+			#Business Critical
+			#Business Important
+			#Business Support
+			#MCBC
+			#Mission Critical
+			when 'MYBIBS'
+				search='BIBS'
+				bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
+				bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_getmycat(search)} ```")
+			when 'MYBC'
+				search='Business Critical'
+				bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
+				bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_getmycat(search)} ```")
+			when 'MYBI'
+				search='Business Important'
+				bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
+				bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_getmycat(search)} ```")
+			when 'MYBS'
+				search='Business Support'
+				bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
+				bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_getmycat(search)} ```")
+			when 'MYMCBC'
+				search='MCBC'
+				bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
+				bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_getmycat(search)} ```")
+			when 'MYMC'
+				search='Mission Critical'
+				bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
+				bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_getmycat(search)} ```")
 			end
 		when Telegram::Bot::Types::Message
+			puts "#{Time.new.strftime("%Y-%m-%d %H:%M:%S")}|REQUEST|#{message.from.username}|#{message.from.first_name}|#{message.chat.id}|#{message.chat.title}|#{message.chat.type}|#{message.text}"
 			case message.text.downcase
 			when /^\/hello/
 				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: self.bot_hello(message.from.first_name))
@@ -213,7 +275,7 @@ class Mainbot
 				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_orahosts} ```")
 			when /^\/oracat(.+)/
 				markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: self.bot_oracat_key,one_time_keyboard: true)
-				bot.api.send_message(chat_id: message.chat.id, text: 'Pilih Kategori', reply_markup: markup)
+				bot.api.send_message(chat_id: message.chat.id, text: 'Pilih Kategori ORACLE', reply_markup: markup)
 			when /^\/mydb (.+)/, /^\/mydb@oramodb_ssi_bot (.+)/
 				search = $1
 				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_mydb(search)} ```")
@@ -223,6 +285,9 @@ class Mainbot
 			when /^\/mydbhosts (.+)/, /^\/mydbhosts@oramodb_ssi_bot (.+)/
 				search = $1
 				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_myhosts(search)} ```")
+			when /^\/mycat(.+)/
+				markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: self.bot_mycat_key,one_time_keyboard: true)
+				bot.api.send_message(chat_id: message.chat.id, text: 'Pilih Kategori MYSQL', reply_markup: markup)
 			end
 		end
 			
