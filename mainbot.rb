@@ -285,7 +285,8 @@ class Mainbot
 			when /^\/mydbhosts (.+)/, /^\/mydbhosts@oramodb_ssi_bot (.+)/
 				search = $1
 				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_myhosts(search)} ```")
-			when /^\/mycat(.+)/
+			when /^\/mydbcat/
+				puts "#{Time.new.strftime("%Y-%m-%d %H:%M:%S")}|REQUEST|#{message.text}";
 				markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: self.bot_mycat_key,one_time_keyboard: true)
 				bot.api.send_message(chat_id: message.chat.id, text: 'Pilih Kategori MYSQL', reply_markup: markup)
 			end
