@@ -168,9 +168,30 @@ class Mainbot
 		case message
 		when Telegram::Bot::Types::CallbackQuery
 			case message.data
+			# Business Critical
+			# Mission Critical
+			# Business Support
+			# Business Important
+			# Mission Critical Business Critical
 			when 'BC'
 				search = 'Business Critical'
 				#puts message.message.inspect;
+				bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
+				bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_getoracat(search)} ```")
+			when 'MC'
+				search = 'Mission Critical'
+				bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
+				bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_getoracat(search)} ```")
+			when 'BS'
+				search = 'Business Support'
+				bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
+				bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_getoracat(search)} ```")
+			when 'BI'
+				search = 'Business Important'
+				bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
+				bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_getoracat(search)} ```")
+			when 'MCBC'
+				search = 'Mission Critical Business Critical'
 				bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
 				bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_getoracat(search)} ```")
 			end
@@ -190,6 +211,9 @@ class Mainbot
 				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_oradblist(search)} ```")
 			when /^\/orahosts(.+)/, /^\/orahosts@oramodb_ssi_bot(.+)/
 				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_orahosts} ```")
+			when /^\/oracat(.+)/
+				markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: self.bot_oracat_key,one_time_keyboard: true)
+				bot.api.send_message(chat_id: message.chat.id, text: 'Pilih Kategori', reply_markup: markup)
 			when /^\/mydb (.+)/, /^\/mydb@oramodb_ssi_bot (.+)/
 				search = $1
 				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_mydb(search)} ```")
