@@ -55,6 +55,7 @@ class Mainbot
 	end
 	### oracle ###
 	def bot_oradb(search)
+		return "command butuh parameter " if search.size <=0 || search == ""
 		str = ''
 		i = 0
 		@orain.rows.each{|row|
@@ -68,6 +69,7 @@ class Mainbot
 	end
 
 	def bot_oradblist(search)
+		return "command butuh parameter " if search.size <=0 || search == ""
 		str = '';
 		i=0
 		@orain.rows.each{|row|
@@ -97,6 +99,7 @@ class Mainbot
 	end
 	### mysql ### 
 	def bot_mydb(search)
+		return "command butuh parameter " if search.size <=0 || search == ""
 		str = ''
 		i = 0
 		@myin.rows.each{|row|
@@ -110,6 +113,7 @@ class Mainbot
 	end
 
 	def bot_mydblist(search)
+		return "command butuh parameter " if search.size <=0 || search == ""
 		str = '';
 		i=0
 		@myin.rows.each{|row|
@@ -123,6 +127,7 @@ class Mainbot
 	end
 
 	def bot_myhosts(search)
+		return "command butuh parameter " if search.size <=0 || search == ""
 		hosts=[]
 		str='';
 		@myin.rows.each{|row|
@@ -135,7 +140,7 @@ class Mainbot
 		hosts.uniq.each{|host|
 			str+= "##{i+=1}|#{host}\n " 
 		}
-		#return "#{search} tidak ditemukan di invetory" if str=='' || str.size <= 0
+		return "#{search} tidak ditemukan di invetory" if str=='' || str.size <= 0
 		return "query ditemukan #{i}, mohon didetailkan lagi" if str.size >= 4096
 		return str
 	end
