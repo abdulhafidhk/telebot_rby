@@ -301,7 +301,7 @@ class Mainbot
 				begin
 					self.message_filter(message,bot)
 				rescue Telegram::Bot::Exceptions::ResponseError => e
-					bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "Exception: #{e.to_s}")
+					bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "ERROR: #{e.to_s}")
 				rescue Exception => e
 					bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "error: try again")
 				end
