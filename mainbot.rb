@@ -62,7 +62,7 @@ class Mainbot
 				str += "\n##{i+=1})DBNAME: #{row[0]}\nHOSTNAME: #{row[1]}\nIP: #{row[2]}\nCAT: #{row[3]}\nPIC: #{row[4]}\nDB.ver: ORACLE #{row[7]}\nAPP: #{row[8]}\nCREATED: #{row[9]}\n";
 			end
 		}
-		return "#{search} tidak ditemukan di invetory" if str=='' 
+		return "#{search} tidak ditemukan di invetory" if str=='' || str.size <= 0
 		return "query ditemukan #{i}, mohon didetailkan lagi" if str.size >= 4096
 		return str
 	end
@@ -75,7 +75,7 @@ class Mainbot
 				str += "##{i+=1}|#{row[0]}|#{row[3]}|#{row[1]}|#{row[4]}|#{row[8]}\n";
 			end
 		}
-		return "#{search} tidak ditemukan di invetory" if str=='' 
+		return "#{search} tidak ditemukan di invetory" if str=='' || str.size <= 0
 		return "query ditemukan #{i}, mohon didetailkan lagi" if str.size >= 4096
 		return str
 	end
@@ -104,7 +104,7 @@ class Mainbot
 				str += "\n##{i+=1})APP: #{row[0]}\nHOSTNAME: #{row[1]}\nIP: #{row[2]}\nCAT: #{row[3]}\nPIC: #{row[4]}\nDB.ver: #{row[7]}\nNOTE: #{row[9]}\n";
 			end
 		}
-		return "#{search} tidak ditemukan di invetory" if str=='' 
+		return "#{search} tidak ditemukan di invetory" if str=='' || str.size <= 0
 		return "query ditemukan #{i}, mohon didetailkan lagi" if str.size >= 4096
 		return str
 	end
@@ -117,7 +117,7 @@ class Mainbot
 				str += "##{i+=1}|#{row[0]}|#{row[3]}|#{row[6]}\n";
 			end
 		}
-		return "#{search} tidak ditemukan di invetory" if str=='' 
+		return "#{search} tidak ditemukan di invetory" if str=='' || str.size <= 0
 		return "query ditemukan #{i}, mohon didetailkan lagi" if str.size >= 4096
 		return str
 	end
@@ -135,6 +135,7 @@ class Mainbot
 		hosts.uniq.each{|host|
 			str+= "##{i+=1}|#{host}\n " 
 		}
+		#return "#{search} tidak ditemukan di invetory" if str=='' || str.size <= 0
 		return "query ditemukan #{i}, mohon didetailkan lagi" if str.size >= 4096
 		return str
 	end
@@ -170,7 +171,7 @@ class Mainbot
 				str += "#{i+=1})#{row[0]}\n"
 			end
 		}
-		return "#{search} tidak ditemukan di invetory" if str=='' 
+		return "#{search} tidak ditemukan di invetory" if str=='' || str.size <= 0
 		return "query ditemukan #{i}, mohon didetailkan lagi" if str.size >= 4096
 		return str
 	end
@@ -183,7 +184,7 @@ class Mainbot
 				str += "#{i+=1})#{row[0]}\n"
 			end
 		}
-		return "#{search} tidak ditemukan di invetory" if str=='' 
+		return "#{search} tidak ditemukan di invetory" if str=='' || str.size <= 0
 		return "query ditemukan #{i}, mohon didetailkan lagi" if str.size >= 4096
 		return str
 	end
@@ -297,7 +298,13 @@ class Mainbot
 	def start
 		Telegram::Bot::Client.run(@teletoken) do |bot|
 			bot.listen do |message|
-				self.message_filter(message,bot)
+				begin
+					self.message_filter(message,bot)
+				rescue Telegram::Bot::Exceptions::ResponseError => e
+					bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "Exception: #{e.to_s}")
+				rescue Exception => e
+					bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "error: try again")
+				end
 			end 
 		end 
 	end
