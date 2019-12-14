@@ -46,7 +46,7 @@ class Mainbot
 		`/mydblist`
 		- get mysql db list on hostname ex: /mydblist hostname 
 		`/mydbhosts` 
-		- get mysql hostname list ex: /myhosts
+		- get mysql hostname list ex: /myhosts hostname
 		`/flip` 
 		- head or tails ?
 		`/about` - this message
@@ -308,7 +308,7 @@ class Mainbot
 				rescue Telegram::Bot::Exceptions::ResponseError => e
 					bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "ERROR: #{e.to_s}")
 				rescue Exception => e
-					bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "error: try again")
+					bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "error: #{e.to_s}")
 				end
 			end 
 		end 
