@@ -89,7 +89,7 @@ class Mainbot
 			end
 		}
 		i=0
-		hosts.each{|host|
+		hosts.uniq.each{|host|
 			str+= "##{i+=1}|#{host}\n" 
 		}
 		return "query ditemukan #{i}, mohon didetailkan lagi" if str.size >= 4096
@@ -271,9 +271,9 @@ class Mainbot
 			when /^\/oradblist (.+)/, /^\/oradblist@oramodb_ssi_bot (.+)/
 				search = $1
 				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_oradblist(search)} ```")
-			when /^\/orahosts(.+)/, /^\/orahosts@oramodb_ssi_bot(.+)/
+			when /^\/orahosts/, /^\/orahosts@oramodb_ssi_bot/
 				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_orahosts} ```")
-			when /^\/oracat(.+)/
+			when /^\/oracat/,/^\/oracat@oramodb_ssi_bot/
 				markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: self.bot_oracat_key,one_time_keyboard: true)
 				bot.api.send_message(chat_id: message.chat.id, text: 'Pilih Kategori ORACLE', reply_markup: markup)
 			when /^\/mydb (.+)/, /^\/mydb@oramodb_ssi_bot (.+)/
@@ -285,7 +285,7 @@ class Mainbot
 			when /^\/mydbhosts (.+)/, /^\/mydbhosts@oramodb_ssi_bot (.+)/
 				search = $1
 				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_myhosts(search)} ```")
-			when /^\/mydbcat/
+			when /^\/mydbcat (.+)/,/^\/mydbcat@oramodb_ssi_bot (.+)/
 				puts "#{Time.new.strftime("%Y-%m-%d %H:%M:%S")}|REQUEST|#{message.text}";
 				markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: self.bot_mycat_key,one_time_keyboard: true)
 				bot.api.send_message(chat_id: message.chat.id, text: 'Pilih Kategori MYSQL', reply_markup: markup)
