@@ -227,8 +227,8 @@ class Mainbot
 		case message
 		when Telegram::Bot::Types::CallbackQuery
 			if whitelist?(message.from.username)
+			then
 			self.logging("#{Time.new.strftime("%Y-%m-%d %H:%M:%S")}|REQUEST|#{message.from.username}|#{message.from.first_name}|#{message.message.chat.id}|#{message.message.chat.title}|#{message.message.chat.type}|#{message.message.text}")			
-				then
 				case message.data
 				#-------------------------------------------------
 				# Oracle
