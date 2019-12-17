@@ -9,13 +9,18 @@ class Mainbot
 	@orain
 	@myin
 	@teletoken
+	@filelog
+	@whitelist
 
 	def initialize
 		@gsession 		= GoogleDrive::Session.from_service_account_key("client_secret.json");
 		@spreadsheet 	= @gsession.spreadsheet_by_title("telebot_ssi_modb");
 		@orain			= @spreadsheet.worksheets.first;
 		@myin			= @spreadsheet.worksheets[1];
+		@postgre		= @spreadsheet.worksheets[2];
+		@whitelist		= @spreadsheet.worksheets[3];
 		@teletoken 		= '1063487728:AAE6TEMGGgxntgZr-DDtb5bitvFG1PeAvh4';
+		@filelog		= File.open('log.txt','a');
 	end
 
 	def bot_hello(username)
@@ -193,108 +198,152 @@ class Mainbot
 		return "query ditemukan #{i}, mohon didetailkan lagi" if str.size >= 4096
 		return str
 	end
+	
+	def logging(str)
+	@filelog.puts str
+	puts str
+	end
+	
+	def whitelist?(username)
+		return false if username.empty?
+		#return true if username == "abdulhk"
+		@whitelist = @spreadsheet.worksheets[3];
+		@whitelist.rows.each{|row|
+			return true if row[0].upcase == username.upcase
+		}
+		return false
+	end
+	
+	def whitelist_user()
+		str = ''
+		i=1
+		@whitelist.rows.each{|row|
+			str += "#{i+=1}) #{row}\n"
+		}
+		return str
+	end
 
 	def message_filter(message,bot)
 		case message
 		when Telegram::Bot::Types::CallbackQuery
-			puts "#{Time.new.strftime("%Y-%m-%d %H:%M:%S")}|REQUEST|#{message.from.username}|#{message.from.first_name}|#{message.message.chat.id}|#{message.message.chat.title}|#{message.message.chat.type}|#{message.message.text}"
-			case message.data
-			#-------------------------------------------------
-			# Oracle
-			#-------------------------------------------------
-			# Business Critical
-			# Mission Critical
-			# Business Support
-			# Business Important
-			# Mission Critical Business Critical
-			when 'BC'
-				search = 'Business Critical'
-				#puts message.message.inspect;
-				bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
-				bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_getoracat(search)} ```")
-			when 'MC'
-				search = 'Mission Critical'
-				bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
-				bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_getoracat(search)} ```")
-			when 'BS'
-				search = 'Business Support'
-				bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
-				bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_getoracat(search)} ```")
-			when 'BI'
-				search = 'Business Important'
-				bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
-				bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_getoracat(search)} ```")
-			when 'MCBC'
-				search = 'Mission Critical Business Critical'
-				bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
-				bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_getoracat(search)} ```")
-			#-------------------------------------------------
-			# MYSQL
-			#-------------------------------------------------
-			#BIBS
-			#Business Critical
-			#Business Important
-			#Business Support
-			#MCBC
-			#Mission Critical
-			when 'MYBIBS'
-				search='BIBS'
-				bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
-				bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_getmycat(search)} ```")
-			when 'MYBC'
-				search='Business Critical'
-				bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
-				bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_getmycat(search)} ```")
-			when 'MYBI'
-				search='Business Important'
-				bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
-				bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_getmycat(search)} ```")
-			when 'MYBS'
-				search='Business Support'
-				bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
-				bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_getmycat(search)} ```")
-			when 'MYMCBC'
-				search='MCBC'
-				bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
-				bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_getmycat(search)} ```")
-			when 'MYMC'
-				search='Mission Critical'
-				bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
-				bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_getmycat(search)} ```")
+			self.logging("#{Time.new.strftime("%Y-%m-%d %H:%M:%S")}|REQUEST|#{message.from.username}|#{message.from.first_name}|#{message.message.chat.id}|#{message.message.chat.title}|#{message.message.chat.type}|#{message.message.text}")
+			if whitelist?(message.from.username) 
+				then
+				case message.data
+				#-------------------------------------------------
+				# Oracle
+				#-------------------------------------------------
+				# Business Critical
+				# Mission Critical
+				# Business Support
+				# Business Important
+				# Mission Critical Business Critical
+				when 'BC'
+					search = 'Business Critical'
+					#puts message.message.inspect;
+					bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
+					bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_getoracat(search)} ```")
+				when 'MC'
+					search = 'Mission Critical'
+					bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
+					bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_getoracat(search)} ```")
+				when 'BS'
+					search = 'Business Support'
+					bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
+					bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_getoracat(search)} ```")
+				when 'BI'
+					search = 'Business Important'
+					bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
+					bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_getoracat(search)} ```")
+				when 'MCBC'
+					search = 'Mission Critical Business Critical'
+					bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
+					bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_getoracat(search)} ```")
+				#-------------------------------------------------
+				# MYSQL
+				#-------------------------------------------------
+				#BIBS
+				#Business Critical
+				#Business Important
+				#Business Support
+				#MCBC
+				#Mission Critical
+				when 'MYBIBS'
+					search='BIBS'
+					bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
+					bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_getmycat(search)} ```")
+				when 'MYBC'
+					search='Business Critical'
+					bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
+					bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_getmycat(search)} ```")
+				when 'MYBI'
+					search='Business Important'
+					bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
+					bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_getmycat(search)} ```")
+				when 'MYBS'
+					search='Business Support'
+					bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
+					bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_getmycat(search)} ```")
+				when 'MYMCBC'
+					search='MCBC'
+					bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
+					bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_getmycat(search)} ```")
+				when 'MYMC'
+					search='Mission Critical'
+					bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
+					bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_getmycat(search)} ```")
+				end
+			else
+				bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "request diabaikan")
+				self.logging("#{Time.new.strftime("%Y-%m-%d %H:%M:%S")}|BLACKLIST|#{message.from.username}|#{message.from.first_name}|#{message.message.chat.id}|#{message.message.chat.title}|#{message.message.chat.type}|#{message.message.text}")
 			end
 		when Telegram::Bot::Types::Message
-			puts "#{Time.new.strftime("%Y-%m-%d %H:%M:%S")}|REQUEST|#{message.from.username}|#{message.from.first_name}|#{message.chat.id}|#{message.chat.title}|#{message.chat.type}|#{message.text}"
-			case message.text.downcase
-			when /^\/hello/
-				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: self.bot_hello(message.from.first_name))
-			when /^\/flip/
-				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: self.bot_flip(message.from.first_name))
-			when /^\/about/
-				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: self.bot_about)
-			when /^\/oradb (.+)/, /^\/oradb@oramodb_ssi_bot (.+)/
-				search = $1
-				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_oradb(search)} ```")
-			when /^\/oradblist (.+)/, /^\/oradblist@oramodb_ssi_bot (.+)/
-				search = $1
-				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_oradblist(search)} ```")
-			when /^\/orahosts/, /^\/orahosts@oramodb_ssi_bot/
-				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_orahosts} ```")
-			when /^\/oracat/,/^\/oracat@oramodb_ssi_bot/
-				markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: self.bot_oracat_key,one_time_keyboard: true)
-				bot.api.send_message(chat_id: message.chat.id, text: 'Pilih Kategori ORACLE', reply_markup: markup)
-			when /^\/mydb (.+)/, /^\/mydb@oramodb_ssi_bot (.+)/
-				search = $1
-				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_mydb(search)} ```")
-			when /^\/mydblist (.+)/, /^\/mydblist@oramodb_ssi_bot (.+)/
-				search = $1
-				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_mydblist(search)} ```")
-			when /^\/mydbhosts (.+)/, /^\/mydbhosts@oramodb_ssi_bot (.+)/
-				search = $1
-				bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_myhosts(search)} ```")
-			when /^\/mydbcat (.+)/,/^\/mydbcat@oramodb_ssi_bot (.+)/
-				puts "#{Time.new.strftime("%Y-%m-%d %H:%M:%S")}|REQUEST|#{message.text}";
-				markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: self.bot_mycat_key,one_time_keyboard: true)
-				bot.api.send_message(chat_id: message.chat.id, text: 'Pilih Kategori MYSQL', reply_markup: markup)
+			self.logging("#{Time.new.strftime("%Y-%m-%d %H:%M:%S")}|REQUEST|#{message.from.username}|#{message.from.first_name}|#{message.chat.id}|#{message.chat.title}|#{message.chat.type}|#{message.text}")
+			if message.text.to_s.strip.empty?
+			then 
+				#bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: self.bot_hello(message.from.first_name))
+				self.logging("#{Time.new.strftime("%Y-%m-%d %H:%M:%S")}|NOTEXT|#{message.inspect.to_s}")
+			else
+				if self.whitelist?(message.from.username)
+				then 
+					case message.text.downcase
+					when /^\/hello/
+						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: self.bot_hello(message.from.first_name))
+					when /^\/flip/
+						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: self.bot_flip(message.from.first_name))
+					when /^\/about/
+						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: self.bot_about)
+					when /^\/oradb (.+)/, /^\/oradb@oramodb_ssi_bot (.+)/
+						search = $1
+						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_oradb(search)} ```")
+					when /^\/oradblist (.+)/, /^\/oradblist@oramodb_ssi_bot (.+)/
+						search = $1
+						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_oradblist(search)} ```")
+					when /^\/orahosts/, /^\/orahosts@oramodb_ssi_bot/
+						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_orahosts} ```")
+					when /^\/oracat/,/^\/oracat@oramodb_ssi_bot/
+						markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: self.bot_oracat_key,one_time_keyboard: true)
+						bot.api.send_message(chat_id: message.chat.id, text: 'Pilih Kategori ORACLE', reply_markup: markup)
+					when /^\/mydb (.+)/, /^\/mydb@oramodb_ssi_bot (.+)/
+						search = $1
+						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_mydb(search)} ```")
+					when /^\/mydblist (.+)/, /^\/mydblist@oramodb_ssi_bot (.+)/
+						search = $1
+						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_mydblist(search)} ```")
+					when /^\/mydbhosts (.+)/, /^\/mydbhosts@oramodb_ssi_bot (.+)/
+						search = $1
+						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_myhosts(search)} ```")
+					when /^\/mydbcat (.+)/,/^\/mydbcat@oramodb_ssi_bot (.+)/
+						markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: self.bot_mycat_key,one_time_keyboard: true)
+						bot.api.send_message(chat_id: message.chat.id, text: 'Pilih Kategori MYSQL', reply_markup: markup)
+					when /^\/whitelist/, /^\/whitelist@oramodb_ssi_bot/
+						
+						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "```#{self.whitelist_user} ```")
+					end
+				else
+					bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "request diabaikan")
+					self.logging("#{Time.new.strftime("%Y-%m-%d %H:%M:%S")}|BLACKLIST|#{message.from.username}|#{message.from.first_name}|#{message.chat.id}|#{message.chat.title}|#{message.chat.type}|#{message.text}")
+				end
 			end
 		end
 			
@@ -306,9 +355,9 @@ class Mainbot
 				begin
 					self.message_filter(message,bot)
 				rescue Telegram::Bot::Exceptions::ResponseError => e
-					bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "ERROR: #{e.to_s}")
+					self.logging("#{Time.new.strftime("%Y-%m-%d %H:%M:%S")}|error|#{e.to_s}|#{message.inspect}")
 				rescue Exception => e
-					bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "error: #{e.to_s}")
+					self.logging("#{Time.new.strftime("%Y-%m-%d %H:%M:%S")}|ERROR|#{e.to_s}")
 				end
 			end 
 		end 
