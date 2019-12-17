@@ -226,8 +226,8 @@ class Mainbot
 	def message_filter(message,bot)
 		case message
 		when Telegram::Bot::Types::CallbackQuery
-			self.logging("#{Time.new.strftime("%Y-%m-%d %H:%M:%S")}|REQUEST|#{message.from.username}|#{message.from.first_name}|#{message.message.chat.id}|#{message.message.chat.title}|#{message.message.chat.type}|#{message.message.text}")
-			if whitelist?(message.from.username) 
+			if whitelist?(message.from.username)
+			self.logging("#{Time.new.strftime("%Y-%m-%d %H:%M:%S")}|REQUEST|#{message.from.username}|#{message.from.first_name}|#{message.message.chat.id}|#{message.message.chat.title}|#{message.message.chat.type}|#{message.message.text}")			
 				then
 				case message.data
 				#-------------------------------------------------
@@ -298,7 +298,6 @@ class Mainbot
 				self.logging("#{Time.new.strftime("%Y-%m-%d %H:%M:%S")}|BLACKLIST|#{message.from.username}|#{message.from.first_name}|#{message.message.chat.id}|#{message.message.chat.title}|#{message.message.chat.type}|#{message.message.text}")
 			end
 		when Telegram::Bot::Types::Message
-			self.logging("#{Time.new.strftime("%Y-%m-%d %H:%M:%S")}|REQUEST|#{message.from.username}|#{message.from.first_name}|#{message.chat.id}|#{message.chat.title}|#{message.chat.type}|#{message.text}")
 			if message.text.to_s.strip.empty?
 			then 
 				#bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: self.bot_hello(message.from.first_name))
@@ -306,6 +305,7 @@ class Mainbot
 			else
 				if self.whitelist?(message.from.username)
 				then 
+				self.logging("#{Time.new.strftime("%Y-%m-%d %H:%M:%S")}|REQUEST|#{message.from.username}|#{message.from.first_name}|#{message.chat.id}|#{message.chat.title}|#{message.chat.type}|#{message.text}")
 					case message.text.downcase
 					when /^\/hello/
 						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: self.bot_hello(message.from.first_name))
