@@ -339,7 +339,7 @@ class Mainbot
 						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_oradblist(search)} ```")
 					when /^\/oraapp (.+)/, /^\/oraapp@oramodb_ssi_bot (.+)/
 						search = $1
-						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_oradblist(search)} ```")
+						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_oraapp(search)} ```")
 					when /^\/orahosts/, /^\/orahosts@oramodb_ssi_bot/
 						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_orahosts} ```")
 					when /^\/oracat/,/^\/oracat@oramodb_ssi_bot/
