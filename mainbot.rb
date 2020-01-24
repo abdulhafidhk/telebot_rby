@@ -260,23 +260,23 @@ class Mainbot
 					search = 'Business Critical'
 					#puts message.message.inspect;
 					bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
-					bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_getoracat(search)} ```")
+					bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_getoracat(search)} ```")
 				when 'MC'
 					search = 'Mission Critical'
 					bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
-					bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_getoracat(search)} ```")
+					bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_getoracat(search)} ```")
 				when 'BS'
 					search = 'Business Support'
 					bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
-					bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_getoracat(search)} ```")
+					bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_getoracat(search)} ```")
 				when 'BI'
 					search = 'Business Important'
 					bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
-					bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_getoracat(search)} ```")
+					bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_getoracat(search)} ```")
 				when 'MCBC'
 					search = 'Mission Critical Business Critical'
 					bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
-					bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_getoracat(search)} ```")
+					bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_getoracat(search)} ```")
 				#-------------------------------------------------
 				# MYSQL
 				#-------------------------------------------------
@@ -289,27 +289,27 @@ class Mainbot
 				when 'MYBIBS'
 					search='BIBS'
 					bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
-					bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_getmycat(search)} ```")
+					bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_getmycat(search)} ```")
 				when 'MYBC'
 					search='Business Critical'
 					bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
-					bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_getmycat(search)} ```")
+					bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_getmycat(search)} ```")
 				when 'MYBI'
 					search='Business Important'
 					bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
-					bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_getmycat(search)} ```")
+					bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_getmycat(search)} ```")
 				when 'MYBS'
 					search='Business Support'
 					bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
-					bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_getmycat(search)} ```")
+					bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_getmycat(search)} ```")
 				when 'MYMCBC'
 					search='MCBC'
 					bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
-					bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_getmycat(search)} ```")
+					bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_getmycat(search)} ```")
 				when 'MYMC'
 					search='Mission Critical'
 					bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id,message_id:message.message.message_id,text: "#{search} picked",reply_markup: {inline_keyboard: []} )
-					bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_getmycat(search)} ```")
+					bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_getmycat(search)} ```")
 				end
 			else
 				bot.api.send_message(chat_id: message.message.chat.id, parse_mode: 'markdown',text: "request diabaikan")
@@ -333,33 +333,33 @@ class Mainbot
 						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: self.bot_about)
 					when /^\/oradb (.+)/, /^\/oradb@oramodb_ssi_bot (.+)/
 						search = $1
-						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_oradb(search)} ```")
+						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_oradb(search)} ```")
 					when /^\/oradblist (.+)/, /^\/oradblist@oramodb_ssi_bot (.+)/
 						search = $1
-						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_oradblist(search)} ```")
+						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_oradblist(search)} ```")
 					when /^\/oraapp (.+)/, /^\/oraapp@oramodb_ssi_bot (.+)/
 						search = $1
-						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_oraapp(search)} ```")
+						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_oraapp(search)} ```")
 					when /^\/orahosts/, /^\/orahosts@oramodb_ssi_bot/
-						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_orahosts} ```")
+						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_orahosts} ```")
 					when /^\/oracat/,/^\/oracat@oramodb_ssi_bot/
 						markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: self.bot_oracat_key,one_time_keyboard: true)
 						bot.api.send_message(chat_id: message.chat.id, text: 'Pilih Kategori ORACLE', reply_markup: markup)
 					when /^\/mydb (.+)/, /^\/mydb@oramodb_ssi_bot (.+)/
 						search = $1
-						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_mydb(search)} ```")
+						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_mydb(search)} ```")
 					when /^\/mydblist (.+)/, /^\/mydblist@oramodb_ssi_bot (.+)/
 						search = $1
-						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_mydblist(search)} ```")
+						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_mydblist(search)} ```")
 					when /^\/mydbhosts (.+)/, /^\/mydbhosts@oramodb_ssi_bot (.+)/
 						search = $1
-						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_myhosts(search)} ```")
+						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_myhosts(search)} ```")
 					when /^\/mydbcat (.+)/,/^\/mydbcat@oramodb_ssi_bot (.+)/
 						markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: self.bot_mycat_key,one_time_keyboard: true)
 						bot.api.send_message(chat_id: message.chat.id, text: 'Pilih Kategori MYSQL', reply_markup: markup)
 					when /^\/whitelist/, /^\/whitelist@oramodb_ssi_bot/
 						
-						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "```#{self.whitelist_user} ```")
+						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.whitelist_user} ```")
 					end
 				else
 					bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "request diabaikan")
