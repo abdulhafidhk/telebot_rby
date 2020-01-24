@@ -62,7 +62,8 @@ class Mainbot
 	def bot_oradb(search)
 		return "command butuh parameter " if search.size <=0 || search == ""
 		str = ''
-		i = 0
+		i = 0;
+		@orain = @spreadsheet.worksheets.first;
 		@orain.rows.each{|row|
 			if row[0].upcase.include?(search.upcase)  
 				str += "\n##{i+=1})DBNAME: #{row[0]}\nHOSTNAME: #{row[1]}\nIP: #{row[2]}\nCAT: #{row[3]}\nPIC: #{row[4]}\nDB.ver: ORACLE #{row[7]}\nAPP: #{row[8]}\nCREATED: #{row[9]}\n";
@@ -76,7 +77,8 @@ class Mainbot
 	def bot_oradblist(search)
 		return "command butuh parameter " if search.size <=0 || search == ""
 		str = '';
-		i=0
+		i=0;
+		@orain = @spreadsheet.worksheets.first;
 		@orain.rows.each{|row|
 			if row[1].upcase.include?(search.upcase)  
 				str += "##{i+=1}|#{row[0]}|#{row[3]}|#{row[1]}|#{row[4]}|#{row[8]}\n";
@@ -87,9 +89,25 @@ class Mainbot
 		return str
 	end
 
+	def bot_oraapp(search)
+		return "command butuh parameter " if search.size <=0 || search == ""
+		str = '';
+		i=0;
+		@orain = @spreadsheet.worksheets.first;
+		@orain.rows.each{|row|
+			if row[8].upcase.include?(search.upcase)  
+				str += "##{i+=1}|#{row[0]}|#{row[3]}|#{row[1]}|#{row[4]}|#{row[8]}\n";
+			end
+		}
+		return "#{search} tidak ditemukan di invetory" if str=='' || str.size <= 0
+		return "query ditemukan #{i}, mohon didetailkan lagi" if str.size >= 4096
+		return str
+	end
+
 	def bot_orahosts
-		hosts=[]
+		hosts=[];
 		str="";
+		@orain = @spreadsheet.worksheets.first;
 		@orain.rows.each{|row|
 			if !(hosts.include?(row[1]+":"+row[2]))
 				hosts.push(row[1]+":"+row[2]);
@@ -317,6 +335,9 @@ class Mainbot
 						search = $1
 						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_oradb(search)} ```")
 					when /^\/oradblist (.+)/, /^\/oradblist@oramodb_ssi_bot (.+)/
+						search = $1
+						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_oradblist(search)} ```")
+					when /^\/oraapp (.+)/, /^\/oraapp@oramodb_ssi_bot (.+)/
 						search = $1
 						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "```#{self.bot_oradblist(search)} ```")
 					when /^\/orahosts/, /^\/orahosts@oramodb_ssi_bot/
