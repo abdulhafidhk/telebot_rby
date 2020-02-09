@@ -191,6 +191,54 @@ class Mainbot
 		return kb
 	end
 
+	###POSTGRESS###
+	def bot_post(search)
+		return "command butuh parameter " if search.size <=0 || search == ""
+		str = ''
+		i = 0
+		@postgre.rows.each{|row|
+			if row[0].upcase.include?(search.upcase)  
+				str += "\n##{i+=1})APP: #{row[0]}\nHOSTNAME: #{row[1]}\nIP: #{row[3]}:#{row[6]}\nCAT: #{row[13]}\nPIC: #{row[14]}\nDB.ver: #{row[7]}\nNOTE: #{row[5]}\n";
+			end
+		}
+		return "#{search} tidak ditemukan di invetory" if str=='' || str.size <= 0
+		return "query ditemukan #{i}, mohon didetailkan lagi" if str.size >= 4096
+		return str
+	end
+
+	def bot_postlist(search)
+		return "command butuh parameter " if search.size <=0 || search == ""
+		str = '';
+		i=0
+		@postgre.rows.each{|row|
+			if row[1].upcase.include?(search.upcase)  
+				str += "##{i+=1}|#{row[1]}|#{row[6]}|#{row[3]}|#{row[5]}\n";
+			end
+		}
+		return "#{search} tidak ditemukan di invetory" if str=='' || str.size <= 0
+		return "query ditemukan #{i}, mohon didetailkan lagi" if str.size >= 4096
+		return str
+	end
+
+	def bot_postapp(search)
+		return "command butuh parameter " if search.size <=0 || search == ""
+		hosts=[]
+		str='';
+		@myin.rows.each{|row|
+			if (row[11].upcase.include?(search.upcase))
+				hosts.push(row[1]+" "+row[3]+":"+row[6]);
+			end
+		}
+		i=0
+		hosts.uniq.each{|host|
+			str+= "##{i+=1}|#{host}\n " 
+		}
+		return "#{search} tidak ditemukan di invetory" if str=='' || str.size <= 0
+		return "query ditemukan #{i}, mohon didetailkan lagi" if str.size >= 4096
+		return str
+	end
+
+
 	def bot_getoracat(search)
 		str = ''
 		i=0
@@ -357,8 +405,16 @@ class Mainbot
 					when /^\/mydbcat (.+)/,/^\/mydbcat@oramodb_ssi_bot (.+)/
 						markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: self.bot_mycat_key,one_time_keyboard: true)
 						bot.api.send_message(chat_id: message.chat.id, text: 'Pilih Kategori MYSQL', reply_markup: markup)
+					when /^\/pdb (.+)/,/^\/pdb@oramodb_ssi_bot (.+)/
+						search = $1
+						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_post(search)} ```")
+					when /^\/phost (.+)/,/^\/phost@oramodb_ssi_bot (.+)/
+						search = $1
+						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_postlist(search)} ```")
+					when /^\/papp (.+)/,/^\/phost@oramodb_ssi_bot (.+)/
+						search = $1
+						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_postapp(search)} ```")
 					when /^\/whitelist/, /^\/whitelist@oramodb_ssi_bot/
-						
 						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.whitelist_user} ```")
 					end
 				else
