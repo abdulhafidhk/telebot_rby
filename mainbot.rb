@@ -197,7 +197,7 @@ class Mainbot
 		str = ''
 		i = 0
 		@postgre.rows.each{|row|
-			if row[0].upcase.include?(search.upcase)  
+			if row[1].upcase.include?(search.upcase)  
 				str += "\n##{i+=1})APP: #{row[0]}\nHOSTNAME: #{row[1]}\nIP: #{row[3]}:#{row[6]}\nCAT: #{row[13]}\nPIC: #{row[14]}\nDB.ver: #{row[7]}\nNOTE: #{row[5]}\n";
 			end
 		}
@@ -224,7 +224,7 @@ class Mainbot
 		return "command butuh parameter " if search.size <=0 || search == ""
 		hosts=[]
 		str='';
-		@myin.rows.each{|row|
+		@postgre.rows.each{|row|
 			if (row[11].upcase.include?(search.upcase))
 				hosts.push(row[1]+" "+row[3]+":"+row[6]);
 			end
@@ -411,7 +411,7 @@ class Mainbot
 					when /^\/phost (.+)/,/^\/phost@oramodb_ssi_bot (.+)/
 						search = $1
 						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_postlist(search)} ```")
-					when /^\/papp (.+)/,/^\/phost@oramodb_ssi_bot (.+)/
+					when /^\/papp (.+)/,/^\/papp@oramodb_ssi_bot (.+)/
 						search = $1
 						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_postapp(search)} ```")
 					when /^\/whitelist/, /^\/whitelist@oramodb_ssi_bot/
