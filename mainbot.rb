@@ -212,7 +212,7 @@ class Mainbot
 		i=0
 		@postgre.rows.each{|row|
 			if row[1].upcase.include?(search.upcase)  
-				str += "##{i+=1}|#{row[1]}|#{row[6]}|#{row[3]}|#{row[5]}\n";
+				str += "##{i+=1}|#{row[1]}|#{row[3]}:#{row[6]}|#{row[5]}\n";
 			end
 		}
 		return "#{search} tidak ditemukan di invetory" if str=='' || str.size <= 0
@@ -226,7 +226,7 @@ class Mainbot
 		str='';
 		@postgre.rows.each{|row|
 			if (row[11].upcase.include?(search.upcase))
-				hosts.push(row[1]+" "+row[3]+":"+row[6]);
+				hosts.push(row[11]+"|"row[1]+"|"+row[3]+":"+row[6]);
 			end
 		}
 		i=0
