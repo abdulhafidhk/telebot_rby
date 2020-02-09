@@ -226,7 +226,7 @@ class Mainbot
 		str='';
 		@postgre.rows.each{|row|
 			if (row[11].upcase.include?(search.upcase))
-				hosts.push(row[11]+"|"row[1]+"|"+row[3]+":"+row[6]);
+				hosts.push(row[11]+"|"+row[1]+"|"+row[3]+":"+row[6]);
 			end
 		}
 		i=0
