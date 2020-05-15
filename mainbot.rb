@@ -126,7 +126,7 @@ class Mainbot
 		str = ''
 		i = 0
 		@myin.rows.each{|row|
-			if row[0].upcase.include?(search.upcase)  
+			if row[12].upcase.include?(search.upcase)  
 				str += "\n##{i+=1})APP: #{row[12]}\nHOSTNAME: #{row[0]}\nIP: #{row[1]} : #{row[2]}\nCAT: #{row[14]}\nPIC: #{row[15]}\nDB.ver: #{row[3]}\nNOTE: #{row[7]}\n";
 			end
 		}
