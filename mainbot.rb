@@ -66,7 +66,7 @@ class Mainbot
 		@orain = @spreadsheet.worksheets.first;
 		@orain.rows.each{|row|
 			if row[0].upcase.include?(search.upcase)  
-				str += "\n##{i+=1})DBNAME: #{row[0]}\nHOSTNAME: #{row[1]}\nIP: #{row[2]}\nCAT: #{row[3]}\nPIC: #{row[4]}\nDB.ver: ORACLE #{row[7]}\nAPP: #{row[8]}\nCREATED: #{row[9]}\n";
+				str += "\n##{i+=1})DBNAME: #{row[0]}\nHOSTNAME: #{row[1]}\nIP: #{row[2]}\nCAT: #{row[3]}\nPIC: #{row[4]}\nDB.ver: ORACLE #{row[11]}\nAPP: #{row[15]}\nCREATED: #{row[16]}\nContact:#{row[5]}";
 			end
 		}
 		return "#{search} tidak ditemukan di invetory" if str=='' || str.size <= 0
@@ -81,7 +81,7 @@ class Mainbot
 		@orain = @spreadsheet.worksheets.first;
 		@orain.rows.each{|row|
 			if row[1].upcase.include?(search.upcase)  
-				str += "##{i+=1}|#{row[0]}|#{row[3]}|#{row[1]}|#{row[4]}|#{row[8]}\n";
+				str += "##{i+=1}|#{row[0]}|#{row[3]}|#{row[1]}|#{row[4]}|#{row[10]}\n";
 			end
 		}
 		return "#{search} tidak ditemukan di invetory" if str=='' || str.size <= 0
@@ -96,7 +96,7 @@ class Mainbot
 		@orain = @spreadsheet.worksheets.first;
 		@orain.rows.each{|row|
 			if row[8].upcase.include?(search.upcase)  
-				str += "##{i+=1}|#{row[0]}|#{row[3]}|#{row[1]}|#{row[4]}|#{row[8]}\n";
+				str += "##{i+=1}|#{row[0]}|#{row[3]}|#{row[1]}|#{row[4]}|#{row[10]}\n";
 			end
 		}
 		return "#{search} tidak ditemukan di invetory" if str=='' || str.size <= 0
@@ -127,7 +127,7 @@ class Mainbot
 		i = 0
 		@myin.rows.each{|row|
 			if row[0].upcase.include?(search.upcase)  
-				str += "\n##{i+=1})APP: #{row[0]}\nHOSTNAME: #{row[1]}\nIP: #{row[2]}\nCAT: #{row[3]}\nPIC: #{row[4]}\nDB.ver: #{row[7]}\nNOTE: #{row[9]}\n";
+				str += "\n##{i+=1})APP: #{row[12]}\nHOSTNAME: #{row[0]}\nIP: #{row[1]} : #{row[2]}\nCAT: #{row[14]}\nPIC: #{row[15]}\nDB.ver: #{row[3]}\nNOTE: #{row[7]}\n";
 			end
 		}
 		return "#{search} tidak ditemukan di invetory" if str=='' || str.size <= 0
@@ -140,8 +140,8 @@ class Mainbot
 		str = '';
 		i=0
 		@myin.rows.each{|row|
-			if row[1].upcase.include?(search.upcase)  
-				str += "##{i+=1}|#{row[0]}|#{row[3]}|#{row[6]}\n";
+			if row[0].upcase.include?(search.upcase)  
+				str += "##{i+=1}|#{row[12]}|#{row[2]}|#{row[14]}\n";
 			end
 		}
 		return "#{search} tidak ditemukan di invetory" if str=='' || str.size <= 0
@@ -154,7 +154,7 @@ class Mainbot
 		hosts=[]
 		str='';
 		@myin.rows.each{|row|
-			h=row[1]+":"+row[2]
+			h=row[0]+":"+row[2]
 			if (h.upcase.include?(search.upcase))
 				hosts.push(row[1]+":"+row[2]);
 			end
