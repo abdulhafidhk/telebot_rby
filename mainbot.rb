@@ -66,7 +66,7 @@ class Mainbot
 		@orain = @spreadsheet.worksheets.first;
 		@orain.rows.each{|row|
 			if row[0].upcase.include?(search.upcase)  
-				str += "\n##{i+=1})DBNAME: #{row[0]}\nHOSTNAME: #{row[1]}\nIP: #{row[2]}\nCAT: #{row[3]}\nPIC: #{row[4]}\nDB.ver: ORACLE #{row[11]}\nAPP: #{row[15]}\nCREATED: #{row[16]}\nContact:#{row[5]}";
+				str += "\n##{i+=1})DBNAME: #{row[0]}\nHOSTNAME: #{row[1]}\nIP: #{row[2]}\nCAT: #{row[3]}\nPIC: #{row[4]}\nDB.ver: ORACLE #{row[11]}\nAPP: #{row[15]}\nCREATED: #{row[16]}\nContact:#{row[5]}\n";
 			end
 		}
 		return "#{search} tidak ditemukan di invetory" if str=='' || str.size <= 0
