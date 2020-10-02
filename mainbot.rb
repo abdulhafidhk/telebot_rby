@@ -256,7 +256,7 @@ class Mainbot
 		str = ''
 		i=0
 		@myin.rows.each{|row|
-			if row[7].upcase.include?(search.upcase)  
+			if row[8].upcase.include?(search.upcase)  
 				str += "#{i+=1})#{row[7]}-#{row[0]}\n"
 			end
 		}
@@ -402,7 +402,7 @@ class Mainbot
 					when /^\/mydbhosts (.+)/, /^\/mydbhosts@oramodb_ssi_bot (.+)/
 						search = $1
 						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_myhosts(search)} ```")
-					when /^\/mydbcat(.+)/,/^\/mydbcat@oramodb_ssi_bot(.+)/
+					when /^\/mydbcat (.+)/,/^\/mydbcat@oramodb_ssi_bot(.+)/
 						markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: self.bot_mycat_key,one_time_keyboard: true)
 						bot.api.send_message(chat_id: message.chat.id, text: 'Pilih Kategori MYSQL', reply_markup: markup)
 					when /^\/pdb (.+)/,/^\/pdb@oramodb_ssi_bot (.+)/
