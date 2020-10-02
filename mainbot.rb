@@ -198,7 +198,7 @@ class Mainbot
 		i = 0
 		@postgre.rows.each{|row|
 			if row[1].upcase.include?(search.upcase) || row[11].upcase.include?(search.upcase)  
-				str += "\n##{i+=1})APP: #{row[0]}\nHOSTNAME: #{row[1]}\nIP: #{row[3]}:#{row[6]}\nCAT: #{row[13]}\nPIC: #{row[14]}\nDB.ver: #{row[7]}\nNOTE: #{row[5]}\n";
+				str += "\n##{i+=1})APP: #{row[11]}\nHOSTNAME: #{row[1]}\nIP: #{row[3]}:#{row[6]}\nCAT: #{row[13]}\nPIC: #{row[14]}\nDB.ver: #{row[7]}\nNOTE: #{row[5]}\n";
 			end
 		}
 		return "#{search} tidak ditemukan di invetory" if str=='' || str.size <= 0
