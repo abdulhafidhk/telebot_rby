@@ -126,8 +126,8 @@ class Mainbot
 		str = ''
 		i = 0
 		@myin.rows.each{|row|
-			if row[12].upcase.include?(search.upcase)  
-				str += "\n##{i+=1})APP: #{row[12]}\nHOSTNAME: #{row[0]}\nIP: #{row[1]} : #{row[2]}\nCAT: #{row[14]}\nPIC: #{row[15]}\nDB.ver: #{row[3]}\nNOTE: #{row[7]}\n";
+			if row[7].upcase.include?(search.upcase)  
+				str += "\n##{i+=1})APP: #{row[7]}\nHOSTNAME: #{row[0]}\nIP: #{row[1]} : #{row[2]}\nCAT: #{row[8]}\nPIC: #{row[9]}\nDB.ver: #{row[4]}\nNOTE: #{row[10]}, #{row[11]}\n";
 			end
 		}
 		return "#{search} tidak ditemukan di invetory" if str=='' || str.size <= 0
@@ -140,8 +140,8 @@ class Mainbot
 		str = '';
 		i=0
 		@myin.rows.each{|row|
-			if row[0].upcase.include?(search.upcase)  
-				str += "##{i+=1}|#{row[12]}|#{row[2]}|#{row[14]}\n";
+			if row[7].upcase.include?(search.upcase)  
+				str += "##{i+=1}|#{row[7]}|#{row[0]}|#{row[1]}:#{row[2]}\n";
 			end
 		}
 		return "#{search} tidak ditemukan di invetory" if str=='' || str.size <= 0
@@ -150,7 +150,7 @@ class Mainbot
 	end
 
 	def bot_myhosts(search)
-		return "command butuh parameter " if search.size <=0 || search == ""
+		#return "command butuh parameter " if search.size <=0 || search == ""
 		hosts=[]
 		str='';
 		@myin.rows.each{|row|
@@ -256,7 +256,7 @@ class Mainbot
 		str = ''
 		i=0
 		@myin.rows.each{|row|
-			if row[3].upcase.include?(search.upcase)  
+			if row[8].upcase.include?(search.upcase)  
 				str += "#{i+=1})#{row[0]}\n"
 			end
 		}
