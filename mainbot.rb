@@ -95,7 +95,7 @@ class Mainbot
 		i=0;
 		@orain = @spreadsheet.worksheets.first;
 		@orain.rows.each{|row|
-			if row[8].upcase.include?(search.upcase)  
+			if row[15].upcase.include?(search.upcase)  
 				str += "##{i+=1}|#{row[0]}|#{row[3]}|#{row[1]}|#{row[4]}|#{row[10]}\n";
 			end
 		}
