@@ -26,6 +26,64 @@ class Mainbot
 	def bot_hello(username)
 		return "Hello om #{username}"
 	end
+	
+	def bot_exa()
+		return "
+		exa 42
+scan
+```10.250.193.107
+10.250.193.105
+10.250.193.106```
+vip
+node 1 = `10.250.193.103`
+node 2 = `10.250.193.104`
+---------------------------
+exapdb62a-scan
+scan
+```10.49.3.202
+10.49.3.201
+10.49.3.203```
+vip
+node 1 = `10.49.3.197`
+node 2 = `10.49.3.198`
+---------------------------
+exapdb62a-scan
+scan
+```10.49.3.205
+10.49.3.204
+10.49.3.206```
+vip
+node 1 = `10.49.3.199`
+node 2 = `10.49.3.200`
+---------------------------
+exaimcpdb-scan
+scan
+```10.53.71.166
+10.53.71.165
+10.53.71.167```
+vip 
+node 1 = `10.53.71.163`
+node 2 = `10.53.71.164`
+---------------------------
+exapdb62tbsa-scan
+scan
+```10.39.64.135
+10.39.64.134
+10.39.64.133```
+vip
+node 1 = `10.39.64.131`
+node 2 = `10.39.64.132`
+---------------------------
+exa62bsda-scan
+scan
+```10.54.128.133
+10.54.128.135
+10.54.128.134```
+vip
+node 1 = `10.54.128.131`
+node 2 = `10.54.128.132`
+		"
+	end
 
 	def bot_flip(username)
 		if (rand(1..100) % 2 == 0)
@@ -123,8 +181,9 @@ class Mainbot
 	### mysql ### 
 	def bot_mydb(search)
 		return "command butuh parameter " if search.size <=0 || search == ""
-		str = ''
-		i = 0
+		str = '';
+		i = 0;
+		@myin = @spreadsheet.worksheets[1];
 		@myin.rows.each{|row|
 			if row[7].upcase.include?(search.upcase)  
 				str += "\n##{i+=1})APP: #{row[7]}\nHOSTNAME: #{row[0]}\nIP: #{row[1]} : #{row[2]}\nCAT: #{row[8]}\nPIC: #{row[9]}\nDB.ver: #{row[4]}\nNOTE: #{row[10]}, #{row[11]}\n";
@@ -138,7 +197,8 @@ class Mainbot
 	def bot_mydblist(search)
 		return "command butuh parameter " if search.size <=0 || search == ""
 		str = '';
-		i=0
+		i=0;
+		@myin = @spreadsheet.worksheets[1];
 		@myin.rows.each{|row|
 			if row[7].upcase.include?(search.upcase)  
 				str += "##{i+=1}|#{row[7]}|#{row[0]}|#{row[1]}:#{row[2]}\n";
@@ -153,6 +213,7 @@ class Mainbot
 		return "command butuh parameter " if search.size <=0 || search == ""
 		hosts=[]
 		str='';
+		@myin = @spreadsheet.worksheets[1];
 		@myin.rows.each{|row|
 			h=row[0]+":"+row[2]
 			if (h.upcase.include?(search.upcase))
@@ -196,6 +257,7 @@ class Mainbot
 		return "command butuh parameter " if search.size <=0 || search == ""
 		str = ''
 		i = 0
+		@postgre = @spreadsheet.worksheets[2];
 		@postgre.rows.each{|row|
 			if row[1].upcase.include?(search.upcase) || row[11].upcase.include?(search.upcase)  
 				str += "\n##{i+=1})APP: #{row[11]}\nHOSTNAME: #{row[1]}\nIP: #{row[3]}:#{row[6]}\nCAT: #{row[13]}\nPIC: #{row[14]}\nDB.ver: #{row[7]}\nNOTE: #{row[5]}\n";
@@ -209,7 +271,8 @@ class Mainbot
 	def bot_postlist(search)
 		return "command butuh parameter " if search.size <=0 || search == ""
 		str = '';
-		i=0
+		i=0;
+		@postgre = @spreadsheet.worksheets[2];
 		@postgre.rows.each{|row|
 			if row[1].upcase.include?(search.upcase)  
 				str += "##{i+=1}|#{row[1]}|#{row[3]}:#{row[6]}|#{row[5]}\n";
@@ -222,8 +285,9 @@ class Mainbot
 
 	def bot_postapp(search)
 		return "command butuh parameter " if search.size <=0 || search == ""
-		hosts=[]
+		hosts=[];
 		str='';
+		@postgre = @spreadsheet.worksheets[2];
 		@postgre.rows.each{|row|
 			if (row[11].upcase.include?(search.upcase))
 				hosts.push(row[11]+"|"+row[1]+"|"+row[3]+":"+row[6]);
@@ -416,6 +480,8 @@ class Mainbot
 						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_postapp(search)} ```")
 					when /^\/whitelist/, /^\/whitelist@oramodb_ssi_bot/
 						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.whitelist_user} ```")
+					when /^\/exalist/, /^\/exalist@oramodb_ssi_bot/
+						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "#{self.bot_exa}")
 					end
 				else
 					bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "request diabaikan")
