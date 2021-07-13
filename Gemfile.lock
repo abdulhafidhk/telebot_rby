@@ -1,7 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    addressable (2.7.0)
+    addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
     axiom-types (0.1.1)
       descendants_tracker (~> 0.0.4)
@@ -44,12 +44,14 @@ GEM
     mini_portile2 (2.4.0)
     multi_json (1.14.1)
     multipart-post (2.1.1)
+    nokogiri (1.10.7)
+      mini_portile2 (~> 2.4.0)
     nokogiri (1.10.7-x64-mingw32)
       mini_portile2 (~> 2.4.0)
     nokogiri (1.10.7-x86-mingw32)
       mini_portile2 (~> 2.4.0)
     os (1.0.1)
-    public_suffix (4.0.1)
+    public_suffix (4.0.6)
     rails_12factor (0.0.3)
       rails_serve_static_assets
       rails_stdout_logging
@@ -78,6 +80,7 @@ GEM
       equalizer (~> 0.0, >= 0.0.9)
 
 PLATFORMS
+  ruby
   x64-mingw32
   x86-mingw32
 
