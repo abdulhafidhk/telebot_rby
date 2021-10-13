@@ -123,7 +123,7 @@ node 2 = `10.54.128.132`"
 		@orain = @spreadsheet.worksheets.first;
 		@orain.rows.each{|row|
 			if row[0].upcase.include?(search.upcase)  
-				str += "\n##{i+=1})DBNAME: #{row[0]}\nHOSTNAME: #{row[1]}\nIP: #{row[2]}\nCAT: #{row[3]}\nPIC: #{row[7]}\nDB.ver: ORACLE #{row[15]}\nAPP: #{row[5]}\nCREATED: #{row[19]}\nContact:#{row[5]}\n";
+				str += "\n##{i+=1})DBNAME: #{row[0]}\nHOSTNAME: #{row[1]}\nIP: #{row[2]}\nCAT: #{row[3]}\nPIC: #{row[7]}\nDB.ver: ORACLE #{row[15]}\nAPP: #{row[5]}\nCREATED: #{row[19]}\nContact:#{row[9]}\n";
 			end
 		}
 		return "#{search} tidak ditemukan di invetory" if str=='' || str.size <= 0
