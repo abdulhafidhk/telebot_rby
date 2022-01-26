@@ -152,7 +152,7 @@ node 2 = `10.54.128.132`"
 		i=0;
 		@orain = @spreadsheet.worksheets.first;
 		@orain.rows.each{|row|
-			if row[5].upcase.include?(search.upcase)  
+			if row[4].upcase.include?(search.upcase)  
 				str += "##{i+=1}|#{row[0]}|#{row[3]}|#{row[1]}|#{row[4]}|#{row[10]}\n";
 			end
 		}
