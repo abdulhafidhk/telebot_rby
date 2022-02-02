@@ -370,15 +370,16 @@ node 2 = `10.54.128.132`"
 		Open = #{date}
 		Request = #{firstname}";
 		#sheetrow=["#{ticket}","","#{title}","#{desc}","OPEN","#{sev}","#{date}","#{date}","#{firstname}"];
-		@issuelog[@issuelog.num_rows+1,1] = ticket;
-		@issuelog[@issuelog.num_rows+1,3] = title;
-		@issuelog[@issuelog.num_rows+1,4] = desc;
-		@issuelog[@issuelog.num_rows+1,5] = "OPEN";
-		@issuelog[@issuelog.num_rows+1,6] = sev;
-		@issuelog[@issuelog.num_rows+1,7] = date;
-		@issuelog[@issuelog.num_rows+1,8] = date;
-		@issuelog[@issuelog.num_rows+1,11] = firstname;
-		@issuelog[@issuelog.num_rows+1,12] = "BOT";
+		sheetrows=@issuelog.num_rows+1;
+		@issuelog[sheetrows,1] = ticket;
+		@issuelog[sheetrows,3] = title;
+		@issuelog[sheetrows,4] = desc;
+		@issuelog[sheetrows,5] = "OPEN";
+		@issuelog[sheetrows,6] = sev;
+		@issuelog[sheetrows,7] = date;
+		@issuelog[sheetrows,8] = date;
+		@issuelog[sheetrows,11] = firstname;
+		@issuelog[sheetrows,12] = "BOT";
 		@issuelog.save;
 		return result;
 	end
