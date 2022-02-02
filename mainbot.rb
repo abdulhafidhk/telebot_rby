@@ -362,30 +362,34 @@ node 2 = `10.54.128.132`"
 		sev 	= arrtext[2];
 		date	= Time.now.strftime("%Y-%m-%d %H:%M:%S"); 
 		date	= arrtext[3] if arrtext.size >= 4;
-		ticket 	= Time.now.strftime("%Y%m%d%H%M%S");
-		result 	= "Ticket=#{ticket}
-		Title = #{title}
-		Desc = #{desc}
-		Severity = #{sev}
-		Open = #{date}
-		Request = #{firstname}";
+		ticket 	= "TSORC"+Time.now.strftime("%Y%m%d%H%M%S");
+		result 	= "Ticket=#{ticket}\nTitle = #{title.titleize}\nDesc = #{desc.titleize}\nSeverity = #{sev.upcase}\nOpen = #{date}\nRequest = #{firstname.titleize}";
 		#sheetrow=["#{ticket}","","#{title}","#{desc}","OPEN","#{sev}","#{date}","#{date}","#{firstname}"];
 		sheetrows=@issuelog.num_rows+1;
-		@issuelog[sheetrows,1] = ticket;
-		@issuelog[sheetrows,3] = title;
-		@issuelog[sheetrows,4] = desc;
+		@issuelog[sheetrows,1] = ticket.upcase;
+		@issuelog[sheetrows,3] = title.titleize;
+		@issuelog[sheetrows,4] = desc.titleize;
 		@issuelog[sheetrows,5] = "OPEN";
-		@issuelog[sheetrows,6] = sev;
+		@issuelog[sheetrows,6] = sev.upcase;
 		@issuelog[sheetrows,7] = date;
 		@issuelog[sheetrows,8] = date;
-		@issuelog[sheetrows,11] = firstname;
+		@issuelog[sheetrows,11] = firstname.titleize;
 		@issuelog[sheetrows,12] = "BOT";
 		@issuelog.save;
 		return result;
 	end
 	
-	def issueprint
-		return 0;
+	def issueprint(tanggal=nil)
+		if tanggal.nil? || tanggal.trim=="" then tanggal=Time.now.strftime("%Y-%m-%d");
+		str = "";
+		@issuelog.reload;
+		@issuelog.rows.each{|row|
+			if row[7].upcase.include?(tanggal.upcase)
+				str += "#{row[1]}|#{row[3]}|#{row[5]}|#{row[6]}|#{row[7]}|#{row[11]}";
+			end
+		}
+		return "No Issue found at #{tanggal}" if str.trim=="";
+		return str;
 	end
 	
 	def issueclose
@@ -527,6 +531,8 @@ node 2 = `10.54.128.132`"
 						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "#{self.bot_exa}")
 					when /^\/issueput (.+)/, /^\/issueput@oramodb_ssi_bot (.+)/
 						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "#{self.issueput($1,message.from.first_name)}")
+					when /^\/issueprint (.+)/, /^\/issueprint@oramodb_ssi_bot (.+)/
+						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "#{self.issueprint($1)}")
 					end
 				else
 					bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "request diabaikan")
