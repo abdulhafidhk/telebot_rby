@@ -368,10 +368,10 @@ node 2 = `10.54.128.132`"
 		Desc\t\t= #{desc}
 		Severity\t= #{sev}
 		Open\t\t= #{date}";
-		data=["#{ticket}","","#{title}","#{desc}","OPEN","#{sev}","#{date}","#{date}"];
+		#data=["#{ticket}","","#{title}","#{desc}","OPEN","#{sev}","#{date}","#{date}"];
 		#@issuelog.push(data);
 		#@issuelog.save;
-		return result+data;
+		return result;
 	end
 	
 	def issueprint
