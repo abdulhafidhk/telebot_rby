@@ -19,6 +19,7 @@ class Mainbot
 		@myin			= @spreadsheet.worksheets[1];
 		@postgre		= @spreadsheet.worksheets[2];
 		@whitelist		= @spreadsheet.worksheets[3];
+		@issuelog		= @spreadsheet.worksheets[4];
 		@teletoken 		= '1063487728:AAE6TEMGGgxntgZr-DDtb5bitvFG1PeAvh4';
 		@filelog		= File.open('log.txt','a');
 	end
@@ -350,6 +351,27 @@ node 2 = `10.54.128.132`"
 			str += "#{i+=1}) #{row}\n"
 		}
 		return str
+	end
+	
+	def issueput(message)
+		arrtext = message.split(";");
+		return "" if arrtext.len
+		ticket = Time.now.strftime("%Y%m%d%H%M%S");
+		result = "Ticket : #{ticket}
+		"
+		return result;
+	end
+	
+	def issueprint
+		
+	end
+	
+	def issueclose
+	
+	end
+	
+	def issuerem
+	
 	end
 
 	def message_filter(message,bot)
