@@ -356,7 +356,7 @@ node 2 = `10.54.128.132`"
 	def issueput(message)
 		@issuelog.reload;
 		arrtext	= message.split(";");
-		return "issue is not submited, format is `tittle;description;severity;date open (optional)`" if arrtext.size <=3;
+		return "issue is not submited, format is `tittle;description;severity;date open (optional)`" if arrtext.size <3;
 		title 	= arrtext[0];
 		desc 	= arrtext[1];
 		sev 	= arrtext[2];
@@ -368,10 +368,10 @@ node 2 = `10.54.128.132`"
 		Desc\t\t= #{desc}
 		Severity\t= #{sev}
 		Open\t\t= #{date}";
-		data=[ticket,"",title,desc,"OPEN",sev,date,date];
-		@issuelog.push(data);
-		@issuelog.save;
-		return result;
+		data=["#{ticket}","","#{title}","#{desc}","OPEN","#{sev}","#{date}","#{date}"];
+		#@issuelog.push(data);
+		#@issuelog.save;
+		return result+data;
 	end
 	
 	def issueprint
