@@ -370,9 +370,10 @@ node 2 = `10.54.128.132`"
 		Open = #{date}
 		Request = #{firstname}";
 		sheetrow=["#{ticket}","","#{title}","#{desc}","OPEN","#{sev}","#{date}","#{date}","#{firstname}"];
-		@issuelog[@issuelog.num_rows][0] = sheetrow;
-		@issuelog.save;
-		return result+sheetrow.join(',');
+		#@issuelog[@issuelog.num_rows][0] = sheetrow;
+		#@issuelog.save;
+		return result+"
+		"+@issuelog.num_rows;
 	end
 	
 	def issueprint
