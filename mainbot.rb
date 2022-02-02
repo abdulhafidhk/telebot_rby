@@ -354,24 +354,36 @@ node 2 = `10.54.128.132`"
 	end
 	
 	def issueput(message)
-		arrtext = message.split(";");
-		return "" if arrtext.len
-		ticket = Time.now.strftime("%Y%m%d%H%M%S");
-		result = "Ticket : #{ticket}
-		"
+		@issuelog.reload;
+		arrtext	= message.split(";");
+		return "issue is not submited, format is `tittle;description;severity;date open (optional)`" if arrtext.size <=3;
+		title 	= arrtext[0];
+		desc 	= arrtext[1];
+		sev 	= arrtext[2];
+		date	= Time.now.strftime("%Y-%m-%d %H:%M:%S"); 
+		date	= arrtext[3] if arrtext.size >= 4;
+		ticket 	= Time.now.strftime("%Y%m%d%H%M%S");
+		result 	= "Ticket\t\t=#{ticket}
+		Title\t\t= #{title}
+		Desc\t\t= #{desc}
+		Severity\t= #{sev}
+		Open\t\t= #{date}";
+		data=[ticket,"",title,desc,"OPEN",sev,date,date];
+		@issuelog.push(data);
+		@issuelog.save;
 		return result;
 	end
 	
 	def issueprint
-		
+		return 0;
 	end
 	
 	def issueclose
-	
+		return 0;
 	end
 	
 	def issuerem
-	
+		return 0;
 	end
 
 	def message_filter(message,bot)
@@ -475,9 +487,9 @@ node 2 = `10.54.128.132`"
 						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_oraapp(search)} ```")
 					when /^\/orahosts/, /^\/orahosts@oramodb_ssi_bot/
 						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_orahosts} ```")
-					when /^\/oracat/,/^\/oracat@oramodb_ssi_bot/
-						markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: self.bot_oracat_key,one_time_keyboard: true)
-						bot.api.send_message(chat_id: message.chat.id, text: 'Pilih Kategori ORACLE', reply_markup: markup)
+					#when /^\/oracat/,/^\/oracat@oramodb_ssi_bot/
+					#	markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: self.bot_oracat_key,one_time_keyboard: true)
+					#	bot.api.send_message(chat_id: message.chat.id, text: 'Pilih Kategori ORACLE', reply_markup: markup)
 					when /^\/mydb (.+)/, /^\/mydb@oramodb_ssi_bot (.+)/
 						search = $1
 						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_mydb(search)} ```")
@@ -487,9 +499,9 @@ node 2 = `10.54.128.132`"
 					when /^\/mydbhosts (.+)/, /^\/mydbhosts@oramodb_ssi_bot (.+)/
 						search = $1
 						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_myhosts(search)} ```")
-					when /^\/mydbcat (.+)/,/^\/mydbcat@oramodb_ssi_bot(.+)/
-						markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: self.bot_mycat_key,one_time_keyboard: true)
-						bot.api.send_message(chat_id: message.chat.id, text: 'Pilih Kategori MYSQL', reply_markup: markup)
+					#when /^\/mydbcat (.+)/,/^\/mydbcat@oramodb_ssi_bot(.+)/
+					#	markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: self.bot_mycat_key,one_time_keyboard: true)
+					#	bot.api.send_message(chat_id: message.chat.id, text: 'Pilih Kategori MYSQL', reply_markup: markup)
 					when /^\/pdb (.+)/,/^\/pdb@oramodb_ssi_bot (.+)/
 						search = $1
 						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.bot_post(search)} ```")
@@ -503,6 +515,8 @@ node 2 = `10.54.128.132`"
 						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.whitelist_user} ```")
 					when /^\/exalist/, /^\/exalist@oramodb_ssi_bot/
 						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "#{self.bot_exa}")
+					when /^\/issueput (.+)/, /^\/issueput@oramodb_ssi_bot (.+)/
+						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "#{self.issueput($1)}")
 					end
 				else
 					bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "request diabaikan")
