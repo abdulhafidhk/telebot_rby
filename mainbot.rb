@@ -387,7 +387,7 @@ node 2 = `10.54.128.132`"
 		@issuelog.reload;
 		@issuelog.rows.each{|row|
 			if row[6].upcase.include?(tanggal.upcase) then
-				str += "#{row[0]}|#{row[2]}|#{row[4]}|#{row[5]}|#{row[6]}|#{row[10]}";
+				str += "#{row[0]}|#{row[2]}|#{row[4]}|#{row[5]}|#{row[6]}|#{row[10]}\n";
 			end
 		}
 		return "No Issue found at #{tanggal}" if str == "" ;
@@ -400,7 +400,7 @@ node 2 = `10.54.128.132`"
 		@issuelog.reload;
 		@issuelog.rows.each{|row|
 			if row[0].upcase.include?(ticket.upcase) then
-				str += "Ticket=#{row[0]}\nTitle = #{row[2]}\nDesc = #{row[3]}\nSeverity = #{row[5]}\nOpen = #{row[6]}\nClosed = #{row[8]}\nRequest = #{row[10]}\nStatus = #{row[4]}";
+				str += "Ticket=#{row[0]}\nTitle = #{row[2]}\nDesc = #{row[3]}\nSeverity = #{row[5]}\nOpen = #{row[6]}\nClosed = #{row[8]}\nRequest = #{row[10]}\nStatus = #{row[4]}\n";
 			end
 		}
 		return "No Issue found" if str == "" ;
