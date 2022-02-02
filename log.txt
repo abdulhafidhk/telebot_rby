@@ -32,3 +32,13 @@ Did you mean?  rows|#<Telegram::Bot::Types::Message:0x0000000007d61418 @message_
 2019-12-17 09:44:33|BLACKLIST|abdulhk|Abdul Hafizdh|-397992993|mytest|group|/whitelist
 2019-12-17 09:45:26|REQUEST|abdulhk|Abdul Hafizdh|-397992993|mytest|group|/hello@oramodb_ssi_bot
 2019-12-17 09:45:27|BLACKLIST|abdulhk|Abdul Hafizdh|-397992993|mytest|group|/hello@oramodb_ssi_bot
+2022-02-03 00:23:19|REQUEST|abdulhk|Abdul Hafizdh|-397992993|mytest|group|/hello@oramodb_ssi_bot
+2022-02-03 00:23:34|REQUEST|abdulhk|Abdul Hafizdh|-397992993|mytest|group|/issueput judul;desc;P3
+2022-02-03 00:23:35|ERROR|no implicit conversion of Integer into String
+2022-02-03 00:24:28|REQUEST|abdulhk|Abdul Hafizdh|-397992993|mytest|group|/hello@oramodb_ssi_bot
+2022-02-03 00:24:38|REQUEST|abdulhk|Abdul Hafizdh|-397992993|mytest|group|/hello@oramodb_ssi_bot
+2022-02-03 00:24:44|REQUEST|abdulhk|Abdul Hafizdh|-397992993|mytest|group|/issueput judul;desc;P3
+2022-02-03 00:25:35|REQUEST|abdulhk|Abdul Hafizdh|-397992993|mytest|group|/issueput judul;desc;P3
+2022-02-03 00:25:35|ERROR|Arguments must be either one String or two Integer's, but are [1]
+2022-02-03 00:26:51|REQUEST|abdulhk|Abdul Hafizdh|-397992993|mytest|group|/issueput judul;desc;P3
+2022-02-03 00:26:52|ERROR|Arguments must be either one String or two Integer's, but are [1]

@@ -330,7 +330,7 @@ node 2 = `10.54.128.132`"
 	end
 	
 	def logging(str)
-	@filelog.puts str
+	#@filelog.puts str
 	puts str
 	end
 	
@@ -369,11 +369,18 @@ node 2 = `10.54.128.132`"
 		Severity = #{sev}
 		Open = #{date}
 		Request = #{firstname}";
-		sheetrow=["#{ticket}","","#{title}","#{desc}","OPEN","#{sev}","#{date}","#{date}","#{firstname}"];
-		#@issuelog[@issuelog.num_rows][0] = sheetrow;
-		#@issuelog.save;
-		return result+"
-		"+@issuelog.num_rows;
+		#sheetrow=["#{ticket}","","#{title}","#{desc}","OPEN","#{sev}","#{date}","#{date}","#{firstname}"];
+		@issuelog[@issuelog.num_rows+1,1] = ticket;
+		@issuelog[@issuelog.num_rows+1,3] = title;
+		@issuelog[@issuelog.num_rows+1,4] = desc;
+		@issuelog[@issuelog.num_rows+1,5] = "OPEN";
+		@issuelog[@issuelog.num_rows+1,6] = sev;
+		@issuelog[@issuelog.num_rows+1,7] = date;
+		@issuelog[@issuelog.num_rows+1,8] = date;
+		@issuelog[@issuelog.num_rows+1,11] = firstname;
+		@issuelog[@issuelog.num_rows+1,12] = "BOT";
+		@issuelog.save;
+		return result;
 	end
 	
 	def issueprint
