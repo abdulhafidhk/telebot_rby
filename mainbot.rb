@@ -353,7 +353,7 @@ node 2 = `10.54.128.132`"
 		return str
 	end
 	
-	def issueput(message)
+	def issueput(message,firstname)
 		@issuelog.reload;
 		arrtext	= message.split(";");
 		return "issue is not submited, format is `tittle;description;severity;date open (optional)`" if arrtext.size <3;
@@ -363,14 +363,15 @@ node 2 = `10.54.128.132`"
 		date	= Time.now.strftime("%Y-%m-%d %H:%M:%S"); 
 		date	= arrtext[3] if arrtext.size >= 4;
 		ticket 	= Time.now.strftime("%Y%m%d%H%M%S");
-		result 	= "Ticket\t\t=#{ticket}
-		Title\t\t= #{title}
-		Desc\t\t= #{desc}
-		Severity\t= #{sev}
-		Open\t\t= #{date}";
-		#data=["#{ticket}","","#{title}","#{desc}","OPEN","#{sev}","#{date}","#{date}"];
-		#@issuelog.push(data);
-		#@issuelog.save;
+		result 	= "Ticket=#{ticket}
+		Title = #{title}
+		Desc = #{desc}
+		Severity = #{sev}
+		Open = #{date}
+		Request = #{firstname}";
+		sheetrow=["#{ticket}","","#{title}","#{desc}","OPEN","#{sev}","#{date}","#{date}","#{firstname}"];
+		@issuelog.push(sheetrow);
+		@issuelog.save;
 		return result;
 	end
 	
@@ -516,7 +517,7 @@ node 2 = `10.54.128.132`"
 					when /^\/exalist/, /^\/exalist@oramodb_ssi_bot/
 						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "#{self.bot_exa}")
 					when /^\/issueput (.+)/, /^\/issueput@oramodb_ssi_bot (.+)/
-						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "#{self.issueput($1)}")
+						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "#{self.issueput($1,message.from.first_name)}")
 					end
 				else
 					bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "request diabaikan")
