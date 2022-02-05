@@ -520,10 +520,14 @@ node 2 = `10.54.128.132`"
 		@issuelog.rows.each_with_index {|row, rindex|
 			if row[0].upcase == ticket.upcase then
 				#str += "Ticket=#{row[0]}\nTitle = #{row[2]}\nDesc = #{row[3]}\nSeverity = #{row[5]}\nOpen = #{row[6]}\nClosed = #{row[8]}\nRequest = #{row[10]}\nStatus = #{row[4]}\n";
-				idx = rindex+1
-				for i in 1..12 do
-					@issuelog[idx,i]="";
-				end
+				#idx = rindex+1
+				#for i in 1..12 do
+				#	@issuelog[idx,i]="";
+				#end
+				idx=rindex+1;
+				submittime = Time.now + (7*60*60);
+				@issuelog[idx,9] = submittime.strftime("%Y-%m-%d %H:%M:%S");
+				@issuelog[idx,5] = "DELETED";
 				@issuelog.save;
 				str = "#{ticket}";
 			end
