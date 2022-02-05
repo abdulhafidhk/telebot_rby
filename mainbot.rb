@@ -94,26 +94,29 @@ node 2 = `10.54.128.132`"
 	end
 
 	def bot_about
-		str = "`/hello`
-		- patrick will say hello
-		`/oradb` 
-		- get oracle db info ex: /db OPDB
-		`/oradblist`
-		- get oracledb list in hostname ex: /dblist exadata
-		`/orahosts` 
-		- show all oracle hostname ex: /orahost
-		`/oracat`
-		- get oracle category ex: /oracat
-		`/mydb`
-		- get mysql db info ex: /mydb appname
-		`/mydblist`
-		- get mysql db list on hostname ex: /mydblist hostname 
-		`/mydbhosts` 
-		- get mysql hostname list ex: /myhosts hostname
-		`/flip` 
-		- head or tails ?
-		`/about` - this message
-		Created on 2 Dec 2019, with RUBY gem\n Last update: 2019-12-06 +7 BETA"
+		str = "hello - say hello
+oradb - ex: /db OPDB
+oradblist - ex: /dblist exadata
+orahosts - hostname list ex: /orahost
+oraapp - search with app name ex: /oraapp crm
+mydb - ex: /mydb appname
+mydblist - dblist on hostname ex: /mydblist hostname 
+mydbhosts - hostname list ex: /myhosts
+pdb - search postgress db by hostname
+phost - search postgress host
+papp - search postgress db by app name
+exalist - exadata scan & vip list
+issueoracle - insert new issue with format service;description;severity;date(optional)
+issuepost - insert new issue with format service;description;severity;date(optional)
+issuemysql - insert new issue with format service;description;severity;date(optional)
+issueinfra - insert new issue with format service;description;severity;date(optional)
+issueprint - print issue today or by date ex: /issueprint 2022-02-02
+issueclose - print issue today or by date ex: /issueclose ticket0001
+issueremove - print issue today or by date ex: /issueremove ticket0001
+issueview - detail view by ticket number ex: /issueview ticket0001
+flip - head or tails ?
+about - this bot
+		Created on 2 Dec 2019, with RUBY gem\n Last update: 2022-02-05"
 		return str
 	end
 	### oracle ###
