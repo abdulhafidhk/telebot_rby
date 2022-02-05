@@ -353,16 +353,44 @@ node 2 = `10.54.128.132`"
 		return str
 	end
 	
-	def issueput(message,firstname)
+	def issueoracle(message,firstname)
 		@issuelog.reload;
+		submittime = Time.now + 7*60*60;
 		arrtext	= message.split(";");
 		return "issue is not submited, format is `tittle;description;severity;date open (optional)`" if arrtext.size <3;
 		title 	= arrtext[0];
 		desc 	= arrtext[1];
 		sev 	= arrtext[2];
-		date	= Time.now.strftime("%Y-%m-%d %H:%M:%S"); 
+		date	= submittime.strftime("%Y-%m-%d %H:%M:%S"); 
 		date	= arrtext[3] if arrtext.size >= 4;
-		ticket 	= "TSORC"+Time.now.strftime("%Y%m%d%H%M%S");
+		ticket 	= "TSORC"+Time.now.strftime("%Y%m%d%H")+"#{@issuelog.num_rows}";
+		result 	= "Ticket=#{ticket}\nTitle = #{title}\nDesc = #{desc}\nSeverity = #{sev.upcase}\nOpen = #{date}\nRequest = #{firstname}";
+		#sheetrow=["#{ticket}","","#{title}","#{desc}","OPEN","#{sev}","#{date}","#{date}","#{firstname}"];
+		sheetrows=@issuelog.num_rows+1;
+		@issuelog[sheetrows,1] = ticket.upcase;
+		@issuelog[sheetrows,3] = title;
+		@issuelog[sheetrows,4] = desc;
+		@issuelog[sheetrows,5] = "OPEN";
+		@issuelog[sheetrows,6] = sev.upcase;
+		@issuelog[sheetrows,7] = date;
+		@issuelog[sheetrows,8] = date;
+		@issuelog[sheetrows,11] = firstname;
+		@issuelog[sheetrows,12] = "BOT";
+		@issuelog.save;
+		return result;
+	end
+
+	def issuepost(message,firstname)
+		@issuelog.reload;
+		submittime = Time.now + 7*60*60;
+		arrtext	= message.split(";");
+		return "issue is not submited, format is `tittle;description;severity;date open (optional)`" if arrtext.size <3;
+		title 	= arrtext[0];
+		desc 	= arrtext[1];
+		sev 	= arrtext[2];
+		date	= submittime.strftime("%Y-%m-%d %H:%M:%S"); 
+		date	= arrtext[3] if arrtext.size >= 4;
+		ticket 	= "TSPOS"+Time.now.strftime("%Y%m%d%H")+"#{@issuelog.num_rows}";
 		result 	= "Ticket=#{ticket}\nTitle = #{title}\nDesc = #{desc}\nSeverity = #{sev.upcase}\nOpen = #{date}\nRequest = #{firstname}";
 		#sheetrow=["#{ticket}","","#{title}","#{desc}","OPEN","#{sev}","#{date}","#{date}","#{firstname}"];
 		sheetrows=@issuelog.num_rows+1;
@@ -379,6 +407,60 @@ node 2 = `10.54.128.132`"
 		return result;
 	end
 	
+	def issuemysql(message,firstname)
+		@issuelog.reload;
+		submittime = Time.now + 7*60*60;
+		arrtext	= message.split(";");
+		return "issue is not submited, format is `tittle;description;severity;date open (optional)`" if arrtext.size <3;
+		title 	= arrtext[0];
+		desc 	= arrtext[1];
+		sev 	= arrtext[2];
+		date	= submittime.strftime("%Y-%m-%d %H:%M:%S"); 
+		date	= arrtext[3] if arrtext.size >= 4;
+		ticket 	= "TSMYS"+Time.now.strftime("%Y%m%d%H")+"#{@issuelog.num_rows}";
+		result 	= "Ticket=#{ticket}\nTitle = #{title}\nDesc = #{desc}\nSeverity = #{sev.upcase}\nOpen = #{date}\nRequest = #{firstname}";
+		#sheetrow=["#{ticket}","","#{title}","#{desc}","OPEN","#{sev}","#{date}","#{date}","#{firstname}"];
+		sheetrows=@issuelog.num_rows+1;
+		@issuelog[sheetrows,1] = ticket.upcase;
+		@issuelog[sheetrows,3] = title;
+		@issuelog[sheetrows,4] = desc;
+		@issuelog[sheetrows,5] = "OPEN";
+		@issuelog[sheetrows,6] = sev.upcase;
+		@issuelog[sheetrows,7] = date;
+		@issuelog[sheetrows,8] = date;
+		@issuelog[sheetrows,11] = firstname;
+		@issuelog[sheetrows,12] = "BOT";
+		@issuelog.save;
+		return result;
+	end
+
+	def issueinfra(message,firstname)
+		@issuelog.reload;
+		submittime = Time.now + 7*60*60;
+		arrtext	= message.split(";");
+		return "issue is not submited, format is `tittle;description;severity;date open (optional)`" if arrtext.size <3;
+		title 	= arrtext[0];
+		desc 	= arrtext[1];
+		sev 	= arrtext[2];
+		date	= submittime.strftime("%Y-%m-%d %H:%M:%S"); 
+		date	= arrtext[3] if arrtext.size >= 4;
+		ticket 	= "TSINF"+Time.now.strftime("%Y%m%d%H")+"#{@issuelog.num_rows}";
+		result 	= "Ticket=#{ticket}\nService = #{title}\nDesc = #{desc}\nSeverity = #{sev.upcase}\nOpen = #{date}\nRequest = #{firstname}";
+		#sheetrow=["#{ticket}","","#{title}","#{desc}","OPEN","#{sev}","#{date}","#{date}","#{firstname}"];
+		sheetrows=@issuelog.num_rows+1;
+		@issuelog[sheetrows,1] = ticket.upcase;
+		@issuelog[sheetrows,3] = title;
+		@issuelog[sheetrows,4] = desc;
+		@issuelog[sheetrows,5] = "OPEN";
+		@issuelog[sheetrows,6] = sev.upcase;
+		@issuelog[sheetrows,7] = date;
+		@issuelog[sheetrows,8] = date;
+		@issuelog[sheetrows,11] = firstname;
+		@issuelog[sheetrows,12] = "BOT";
+		@issuelog.save;
+		return result;
+	end
+
 	def issueprint(tanggal=nil)
 		if tanggal.nil? || tanggal=="" then 
 			tanggal=Time.now.strftime("%Y-%m-%d");
@@ -386,12 +468,17 @@ node 2 = `10.54.128.132`"
 		str = "";
 		@issuelog.reload;
 		@issuelog.rows.each{|row|
-			if row[6].upcase.include?(tanggal.upcase) then
-				str += "#{row[0]}|#{row[2]}|#{row[4]}|#{row[5]}|#{row[6]}|#{row[10]}\n";
+			if row[6].upcase.include?(tanggal.upcase) and row[4].upcase == "OPEN" then
+				str += "-#{row[0]}|#{row[2]}|*#{row[4]}*|#{row[5]}|#{row[6]}|#{row[10]}\n";
+			end
+		}
+		@issuelog.rows.each{|row|
+			if row[6].upcase.include?(tanggal.upcase) and row[4].upcase == "CLOSE" then
+				str += "-#{row[0]}|#{row[2]}|*#{row[4]}*|#{row[5]}|#{row[6]}|#{row[10]}\n";
 			end
 		}
 		return "No Issue found at #{tanggal}" if str == "" ;
-		return str;
+		return "Issue at #{tanggal}:\n"+str;
 	end
 
 	def issueview(ticket=nil)
@@ -399,20 +486,50 @@ node 2 = `10.54.128.132`"
 		str = "";
 		@issuelog.reload;
 		@issuelog.rows.each{|row|
-			if row[0].upcase.include?(ticket.upcase) then
-				str += "Ticket=#{row[0]}\nTitle = #{row[2]}\nDesc = #{row[3]}\nSeverity = #{row[5]}\nOpen = #{row[6]}\nClosed = #{row[8]}\nRequest = #{row[10]}\nStatus = #{row[4]}\n";
+			if row[0].upcase == ticket.upcase then
+				str += "Ticket=#{row[0]}\nService = #{row[2]}\nDesc = #{row[3]}\nSeverity = #{row[5]}\nOpen = #{row[6]}\nClosed = #{row[8]}\nRequest = #{row[10]}\nStatus = #{row[4]}\n";
 			end
 		}
-		return "No Issue found" if str == "" ;
+		return "No Issue found #{ticket}" if str == "" ;
 		return str;
 	end
 	
-	def issueclose
-		return 0;
+	def issueclose(ticket=nil)
+		return "Input ticket number" if ticket.nil? || ticket=="" 
+		str = "";
+		@issuelog.reload;
+		@issuelog.rows.each_with_index {|row, rindex|
+			if row[0].upcase == ticket.upcase then
+				idx=rindex+1;
+				submittime = Time.now + (7*60*60);
+				@issuelog[idx,9] = submittime.strftime("%Y-%m-%d %H:%M:%S");
+				@issuelog[idx,5] = "CLOSE";
+				@issuelog.save;
+				#str += "Ticket=#{row[0]}\nTitle = #{row[2]}\nDesc = #{row[3]}\nSeverity = #{row[5]}\nOpen = #{row[6]}\nClosed = #{row[8]}\nRequest = #{row[10]}\nStatus = #{row[4]}\n";
+				str += "Ticket=#{row[0]}\nService = #{row[2]}\nDesc = #{row[3]}\nSeverity = #{row[5]}";
+			end
+		}
+		return "No Issue found #{ticket}" if str == "" ;
+		return "Issue Closed\n"+str;
 	end
 	
-	def issuerem
-		return 0;
+	def issuerem(ticket=nil)
+		return "Input ticket number" if ticket.nil? || ticket=="" 
+		str = "";
+		@issuelog.reload;
+		@issuelog.rows.each_with_index {|row, rindex|
+			if row[0].upcase == ticket.upcase then
+				#str += "Ticket=#{row[0]}\nTitle = #{row[2]}\nDesc = #{row[3]}\nSeverity = #{row[5]}\nOpen = #{row[6]}\nClosed = #{row[8]}\nRequest = #{row[10]}\nStatus = #{row[4]}\n";
+				idx = rindex+1
+				for i in 1..12 do
+					@issuelog[idx,i]="";
+				end
+				@issuelog.save;
+				str = "#{ticket}";
+			end
+		}
+		return "No Issue found #{ticket}" if str == "" ;
+		return "Issue deleted\n"+str;
 	end
 
 	def message_filter(message,bot)
@@ -544,14 +661,24 @@ node 2 = `10.54.128.132`"
 						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "``` #{self.whitelist_user} ```")
 					when /^\/exalist/, /^\/exalist@oramodb_ssi_bot/
 						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "#{self.bot_exa}")
-					when /^\/issueput (.+)/, /^\/issueput@oramodb_ssi_bot (.+)/
-						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "#{self.issueput($1,message.from.first_name)}")
+					when /^\/issueoracle (.+)/, /^\/issueoracle@oramodb_ssi_bot (.+)/
+						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "#{self.issueoracle($1,message.from.first_name)}")
+					when /^\/issuepost (.+)/, /^\/issuepost@oramodb_ssi_bot (.+)/
+						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "#{self.issuepost($1,message.from.first_name)}")
+					when /^\/issuemysql (.+)/, /^\/issuemysql@oramodb_ssi_bot (.+)/
+						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "#{self.issuemysql($1,message.from.first_name)}")
+					when /^\/issueinfra (.+)/, /^\/issueinfra@oramodb_ssi_bot (.+)/
+						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "#{self.issueinfra($1,message.from.first_name)}")
 					when /^\/issueprint (.+)/, /^\/issueprint@oramodb_ssi_bot (.+)/
 						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "#{self.issueprint($1)}")
 					when /^\/issueprint/, /^\/issueprint@oramodb_ssi_bot/
 						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "#{self.issueprint()}")
 					when /^\/issueview (.+)/, /^\/issueview@oramodb_ssi_bot (.+)/
 						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "#{self.issueview($1)}")
+					when /^\/issueclose (.+)/, /^\/issueclose@oramodb_ssi_bot (.+)/
+						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "#{self.issueclose($1)}")
+					when /^\/issueremove (.+)/, /^\/issueremove@oramodb_ssi_bot (.+)/
+						bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "#{self.issuerem($1)}")
 					end
 				else
 					bot.api.send_message(chat_id: message.chat.id, parse_mode: 'markdown',text: "request diabaikan")
