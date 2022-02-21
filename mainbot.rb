@@ -367,7 +367,7 @@ about - this bot
 		date	= submittime.strftime("%Y-%m-%d %H:%M:%S"); 
 		date	= arrtext[3] if arrtext.size >= 4;
 		ticket 	= "TSORC"+Time.now.strftime("%Y%m%d%H")+"#{@issuelog.num_rows}";
-		result 	= "Ticket=#{ticket}\nTitle = #{title}\nDesc = #{desc}\nSeverity = #{sev.upcase}\nOpen = #{date}\nRequest = #{firstname}";
+		result 	= "Ticket=#{ticket}\nService = #{title}\nDesc = #{desc}\nSeverity = #{sev.upcase}\nOpen = #{date}\nRequest = #{firstname}";
 		#sheetrow=["#{ticket}","","#{title}","#{desc}","OPEN","#{sev}","#{date}","#{date}","#{firstname}"];
 		sheetrows=@issuelog.num_rows+1;
 		@issuelog[sheetrows,1] = ticket.upcase;
@@ -394,7 +394,7 @@ about - this bot
 		date	= submittime.strftime("%Y-%m-%d %H:%M:%S"); 
 		date	= arrtext[3] if arrtext.size >= 4;
 		ticket 	= "TSPOS"+Time.now.strftime("%Y%m%d%H")+"#{@issuelog.num_rows}";
-		result 	= "Ticket=#{ticket}\nTitle = #{title}\nDesc = #{desc}\nSeverity = #{sev.upcase}\nOpen = #{date}\nRequest = #{firstname}";
+		result 	= "Ticket=#{ticket}\nService = #{title}\nDesc = #{desc}\nSeverity = #{sev.upcase}\nOpen = #{date}\nRequest = #{firstname}";
 		#sheetrow=["#{ticket}","","#{title}","#{desc}","OPEN","#{sev}","#{date}","#{date}","#{firstname}"];
 		sheetrows=@issuelog.num_rows+1;
 		@issuelog[sheetrows,1] = ticket.upcase;
@@ -421,7 +421,7 @@ about - this bot
 		date	= submittime.strftime("%Y-%m-%d %H:%M:%S"); 
 		date	= arrtext[3] if arrtext.size >= 4;
 		ticket 	= "TSMYS"+Time.now.strftime("%Y%m%d%H")+"#{@issuelog.num_rows}";
-		result 	= "Ticket=#{ticket}\nTitle = #{title}\nDesc = #{desc}\nSeverity = #{sev.upcase}\nOpen = #{date}\nRequest = #{firstname}";
+		result 	= "Ticket=#{ticket}\nService = #{title}\nDesc = #{desc}\nSeverity = #{sev.upcase}\nOpen = #{date}\nRequest = #{firstname}";
 		#sheetrow=["#{ticket}","","#{title}","#{desc}","OPEN","#{sev}","#{date}","#{date}","#{firstname}"];
 		sheetrows=@issuelog.num_rows+1;
 		@issuelog[sheetrows,1] = ticket.upcase;
@@ -466,18 +466,19 @@ about - this bot
 
 	def issueprint(tanggal=nil)
 		if tanggal.nil? || tanggal=="" then 
-			tanggal=Time.now.strftime("%Y-%m-%d");
+			submittime = Time.now + 7*60*60;
+			tanggal=submittime.strftime("%Y-%m-%d");
 		end
 		str = "";
 		@issuelog.reload;
 		@issuelog.rows.each{|row|
 			if row[6].upcase.include?(tanggal.upcase) and row[4].upcase == "OPEN" then
-				str += "-#{row[0]}|#{row[2]}|*#{row[4]}*|#{row[5]}|#{row[6]}|#{row[10]}\n";
+				str += "+ #{row[0]}|#{row[2]}|*#{row[4]}*|#{row[5]}|#{row[6]}|#{row[10]}\n";
 			end
 		}
 		@issuelog.rows.each{|row|
 			if row[6].upcase.include?(tanggal.upcase) and row[4].upcase == "CLOSE" then
-				str += "-#{row[0]}|#{row[2]}|*#{row[4]}*|#{row[5]}|#{row[6]}|#{row[10]}\n";
+				str += "- #{row[0]}|#{row[2]}|*#{row[4]}*|#{row[5]}|#{row[6]}|#{row[10]}\n";
 			end
 		}
 		return "No Issue found at #{tanggal}" if str == "" ;
